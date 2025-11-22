@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from tutors.forms import TutorForm
 from django.contrib.auth.models import User
+
+from tutors.forms import TutorForm, TutorSigninForm
+
 from accounts.models import UserProfile
 from tutors.models import Tutor
 
@@ -24,10 +26,9 @@ def signup_page(request):
                     form.add_error('password', "Both passwords should be same")
                     print("Passwords should be same")
                 else:
-                    user = User.objects.create(
-                        username=email,
-                        password=password
-                    )
+                    user = User(username=email)
+                    user.set_password(password)
+                    user.save()
 
                     userProfile = UserProfile.objects.create(
                         user=user,
@@ -46,5 +47,30 @@ def signup_page(request):
     else:
         form = TutorForm()
     return render(request, 'tutor_signup.html', {
+        'form': form,
+    })
+
+def signin_page(request):
+    if request.method == 'POST':
+        form = TutorSigninForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+
+            if not Tutor.objects.filter(email=email).exists():
+                form.add_error('email', "This email doesn't have any account")
+                print("User not found matching email")
+            else:
+                user = User.objects.get(username=email)
+                if not user.check_password(password):
+                    form.add_error('password', "Password Error")
+                    print("Password Error")
+                else:
+                    print("Successfull")
+
+
+    else:
+        form = TutorSigninForm()
+    return render(request, 'student_signin.html', {
         'form': form,
     })
