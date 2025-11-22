@@ -10,13 +10,23 @@
 <body>
     <form method="post" id="signUpForm">
         {% csrf_token %}
+
         Name: {{form.username}} <br>
-        Registration no: {{form.regno}} <br>
-        {% if form.username.errors %}
-            <div class="error"> {{form.username.errors.0}} </div>
+
+        Email: {{form.email}} <br>
+        <div id="email-error" class="error"></div>
+        {% if form.email.errors %}
+            <div class="error"> {{form.email.errors.0}} </div>
         {% endif %}
+
+        Registration no: {{form.regno}} <br>
+        {% if form.regno.errors %}
+            <div class="error"> {{form.regno.errors.0}} </div>
+        {% endif %}
+
         Semester: {{form.semester}} <br>
         <div id="semester-error" class="error"></div>
+
         Department: 
         <select name="department" id="department">
             <option value="Commerce" >Department of Commerce</option>
@@ -24,19 +34,22 @@
             <option value="History">Department of History</option>
         </select> 
         <br>
+
         Course:
         <select name="course" id="course">
 
         </select>
         <br>
+
         <!-- Password: <input type="password" name="password" id="password"> <br> -->
         Password: {{form.password}} <br>
-        Confirm Password: <input type="password" name="confirmPassword" id="confirm-password"> <br>
+        Confirm Password: <input type="password" name="confirmPassword" id="confirm-password" placeholder="Confirm password"> <br>
         {% if form.password.errors %}
             <div class="error"> {{form.password.errors.0}} </div>
         {% endif %}
         <div id="password-error" class="error"></div>
-        <button id="submit-button">Submit</button>
+        
+        <button id="submit-button" type="submit">Submit</button>
     </form>
     <script src="{% static "students/js/script.js" %}"></script>
 </body>
