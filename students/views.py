@@ -11,6 +11,7 @@ def signup_page(request):
         form = StudentForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
             regno = form.cleaned_data['regno']
             semester = form.cleaned_data['semester']
             department = request.POST.get('department')
@@ -19,47 +20,53 @@ def signup_page(request):
             password = form.cleaned_data['password']
             confirm_password = request.POST.get('confirmPassword')
 
-            print(f"username: {username}")
-            print(f"regno = {regno}")
-            print(f"semester = {semester}")
-            print(f"department = {department}")
-            print(f"course = {course}")
-            print(f"Password = {password}")
-            print(f"Confirmed Password = {confirm_password}")
+            # print(f"username: {username}")
+            # print(f"email: {email}")
+            # print(f"regno = {regno}")
+            # print(f"semester = {semester}")
+            # print(f"department = {department}")
+            # print(f"course = {course}")
+            # print(f"Password = {password}")
+            # print(f"Confirmed Password = {confirm_password}")
 
-            if User.objects.filter(username=regno).exists():
-                form.add_error('username', 'Registration number already exists')
-                print('student already exists')
+            if Student.objects.filter(regno=regno).exists():
+                form.add_error('regno', "Registration no already exist")
+                print("Registration no already exist")
             else:
-                if password != confirm_password:
-                    form.add_error('password', "Both passwords should be same")
-                    print("password error")
+                if User.objects.filter(username=email).exists():
+                    form.add_error('email', 'Email already exists')
+                    print('student already exists')
                 else:
-                    user = User.objects.create_user(
-                        username=regno,
-                        password=password,
-                    )
+                    if password != confirm_password:
+                        form.add_error('password', "Both passwords should be same")
+                        print("password error")
+                    else:
+                        user = User.objects.create_user(
+                            username=email,
+                            password=password,
+                        )
 
-                    userProfile = UserProfile.objects.create(
-                        user=user,
-                        role='student',
-                    )
+                        userProfile = UserProfile.objects.create(
+                            user=user,
+                            role='student',
+                        )
 
-                    Student.objects.create(
-                       profile=userProfile,
-                       username=username,
-                       regno=regno,
-                       semester=semester,
-                       department=department,
-                       course=course,
-                    )
+                        Student.objects.create(
+                            profile=userProfile,
+                            username=username,
+                            email=email,
+                            regno=regno,
+                            semester=semester,
+                            department=department,
+                            course=course,
+                        )
 
-                    print("Successfull")
+                        print("Successfull")
                     
-        else:
-            return render(request, 'student_signup.html', {
-                'form': form,
-            })
+        # else:
+        #     return render(request, 'student_signup.html', {
+        #         'form': form,
+        #     })
     else: 
         form = StudentForm()
     return render(request, 'student_signup.html', {
