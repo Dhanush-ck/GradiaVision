@@ -43,7 +43,7 @@ def signup_page(request):
                         form.add_error('password', "Both passwords should be same")
                         print("password error")
                     else:
-                        user = User(username=email)
+                        user = User(username=email, email=email)
                         user.set_password(password)
                         user.save()
 
