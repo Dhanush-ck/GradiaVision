@@ -28,6 +28,9 @@
         {% if form.password.errors %}
             <div class="errors"> {{form.password.errors.0}} </div>
         {% endif %}
+
+        Question: {{form.security_question}} <br>
+        Answer: {{form.security_answer}} <br>
         
         <button type="submit" id="submit-button">Submit</button>
 
