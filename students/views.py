@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
-from students.forms import StudentForm, StudentSigninForm
+from students.forms import StudentForm
 
 from students.models import Student
 from accounts.models import UserProfile
@@ -21,6 +22,8 @@ def signup_page(request):
             # password = request.POST.get('password')
             password = form.cleaned_data['password']
             confirm_password = request.POST.get('confirmPassword')
+            security_question =  form.cleaned_data['security_question']
+            security_answer = form.cleaned_data['security_answer']
 
             # print(f"username: {username}")
             # print(f"email: {email}")
@@ -50,7 +53,10 @@ def signup_page(request):
                         userProfile = UserProfile.objects.create(
                             user=user,
                             role='student',
+                            security_question=security_question,
                         )
+                        userProfile.security_answer = make_password(security_answer)
+                        userProfile.save()
 
                         Student.objects.create(
                             profile=userProfile,
@@ -70,27 +76,3 @@ def signup_page(request):
         'form': form,
     })
 
-def signin_page(request):
-    if request.method == 'POST':
-        form = StudentSigninForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-
-            if not Student.objects.filter(email=email).exists():
-                form.add_error('email', "This email doesn't have any account")
-                print("User not found matching email")
-            else:
-                user = User.objects.get(username=email)
-                if not user.check_password(password):
-                    form.add_error('password', "Password Error")
-                    print("Password Error")
-                else:
-                    print("Successfull")
-
-
-    else:
-        form = StudentSigninForm()
-    return render(request, 'student_signin.html', {
-        'form': form,
-    })
