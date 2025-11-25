@@ -4,19 +4,8 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('role', views.select_role, name='role'),
-     path(
-        "password-reset",
-        auth_views.PasswordResetView.as_view(
-            template_name="password_reset.html",
-            email_template_name="password_reset_email.html",
-            subject_template_name="password_reset_subject.txt",
-            success_url="/account/password-reset/done",
-        ),
-        name="password_reset",
-    ),
-
     path(
-        "password-reset/done",
+        "reset/done",
         auth_views.PasswordResetDoneView.as_view(
             template_name="password_reset_done.html"
         ),
@@ -27,16 +16,19 @@ urlpatterns = [
         "reset/<uidb64>/<token>",
         auth_views.PasswordResetConfirmView.as_view(
             template_name="password_reset_confirm.html",
-            success_url="account/reset/done",   # <--- redirect after password changed
+            success_url="account/reset/complete",  
         ),
         name="password_reset_confirm",
     ),
 
     path(
-        "reset/done",
+        "reset/complete",
         auth_views.PasswordResetCompleteView.as_view(
             template_name="password_reset_complete.html"
         ),
         name="password_reset_complete",
     ),
+    path('signin', views.signin, name='signin'),
+    path('verify/email', views.verify_email, name='verify_email'),
+    path('question', views.question_view, name='question_view'),
 ]
