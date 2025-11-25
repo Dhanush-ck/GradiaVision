@@ -1,0 +1,34 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'accounts/css/signin.css' %}">
+</head>
+<body>
+    
+    <form method="post">
+
+        {% csrf_token %}
+
+        <!-- Email: <input type="email" name="email" id="email"> <br>
+        Password: <input type="password" name="password" id="password"> <br> -->
+
+        Email: {{form.email}} <br>
+        Password: {{form.password}} <br>
+
+        <div id="email-error" class="errors"></div>
+
+        {% if error %}
+            <div class="errors"> {{error}} </div>
+        {% endif %}
+        
+        <button type="submit" id="submit-button">Login</button>
+    </form>
+
+    <script src=" {% static "accounts/js/signin.js" %} "></script>
+</body>
+</html>
