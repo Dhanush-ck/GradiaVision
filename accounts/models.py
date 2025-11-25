@@ -12,6 +12,9 @@ class UserProfile(models.Model):
         ("admin", "Admin")
                           ])
     
+    security_question = models.CharField(max_length=100, blank=True)
+    security_answer = models.CharField(max_length=20, blank=True)
+    
     def __str__(self):
         return f"{self.user.username} - {self.role}"
     
