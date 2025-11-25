@@ -5,7 +5,5 @@ class TutorForm(forms.Form):
     email = forms.EmailField(max_length=100, widget=forms.EmailInput(attrs={'placeholder': 'Enter your email', 'id': 'email'}))
     class_charge = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Enter the class in charge', 'id': 'class-charge'}))
     password = forms.CharField(max_length=20, widget=forms.PasswordInput(attrs={'placeholder': 'Enter your password', 'id': 'password'}))
-
-class TutorSigninForm(forms.Form):
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder':"Enter your email", 'id':'email'}))
-    password = forms.CharField(max_length=20, widget=forms.PasswordInput(attrs={'placeholder': 'Enter your password' ,'id':'password'}))
+    security_question = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': "Enter the question", 'id': 'security-question'}))
+    security_answer = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'placeholder': 'Enter the answer', 'id': 'security-answer'}))
