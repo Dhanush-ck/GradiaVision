@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
-from tutors.forms import TutorForm, TutorSigninForm
+from tutors.forms import TutorForm
 
 from accounts.models import UserProfile
 from tutors.models import Tutor
@@ -17,6 +18,8 @@ def signup_page(request):
             class_charge = form.cleaned_data['class_charge']
             password = form.cleaned_data['password']
             confirm_password = request.POST.get('confirmPassword')
+            security_question =  form.cleaned_data['security_question']
+            security_answer = form.cleaned_data['security_answer']
 
             if User.objects.filter(username=email).exists():
                 form.add_error('email' ,'Email already exists')
@@ -32,8 +35,11 @@ def signup_page(request):
 
                     userProfile = UserProfile.objects.create(
                         user=user,
-                        role='tutor'
+                        role='tutor',
+                        security_question=security_question,
                     )
+                    userProfile.security_answer = make_password(security_answer)
+                    userProfile.save()
 
                     Tutor.objects.create(
                         profile=userProfile,
@@ -47,30 +53,5 @@ def signup_page(request):
     else:
         form = TutorForm()
     return render(request, 'tutor_signup.html', {
-        'form': form,
-    })
-
-def signin_page(request):
-    if request.method == 'POST':
-        form = TutorSigninForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-
-            if not Tutor.objects.filter(email=email).exists():
-                form.add_error('email', "This email doesn't have any account")
-                print("User not found matching email")
-            else:
-                user = User.objects.get(username=email)
-                if not user.check_password(password):
-                    form.add_error('password', "Password Error")
-                    print("Password Error")
-                else:
-                    print("Successfull")
-
-
-    else:
-        form = TutorSigninForm()
-    return render(request, 'student_signin.html', {
         'form': form,
     })
