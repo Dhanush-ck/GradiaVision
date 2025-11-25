@@ -48,6 +48,9 @@
             <div class="error"> {{form.password.errors.0}} </div>
         {% endif %}
         <div id="password-error" class="error"></div>
+
+        Question: {{form.security_question}} <br>
+        Answer: {{form.security_answer}} <br>
         
         <button id="submit-button" type="submit">Submit</button>
     </form>
