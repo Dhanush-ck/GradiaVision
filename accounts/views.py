@@ -20,7 +20,7 @@ def select_role(request):
             else:
                 print("admin")
 
-    return render(request, 'role.html')
+    return render(request, 'accounts/role.html')
 
 def signin(request):
     if request.method == 'POST':
@@ -50,7 +50,7 @@ def signin(request):
                 error = "Incorrect password. Try again. "
                 print('Incorrect password. Try again.')
 
-        return render(request, 'signin.html', {
+        return render(request, 'accounts/signin.html', {
             'error': error,
             'form': form,
         })
@@ -59,7 +59,7 @@ def signin(request):
         form = SigninForm()
 
     
-    return render(request, 'signin.html', {
+    return render(request, 'accounts/signin.html', {
         'form': form
     })
 
@@ -72,7 +72,7 @@ def verify_email(request):
             if not User.objects.filter(username=email).exists():
                 print("Email doesn't exist")
                 error = "Email doesn't exist"
-                return render(request, 'reset_email.html', {
+                return render(request, 'accounts/reset_email.html', {
                     'form': form,
                     'error': error,
                 })
@@ -82,7 +82,7 @@ def verify_email(request):
 
     else:
         form = EmailForm()
-    return render(request, 'verify_email.html', {
+    return render(request, 'accounts/verify_email.html', {
         'form': form,
     })
 
@@ -95,7 +95,7 @@ def question_view(request):
 
         if not check_password(answer, user.userprofile.security_answer):
             print("Invalid answer")
-            return render(request, 'question_view.html', {
+            return render(request, 'accounts/question_view.html', {
                 'question': user.userprofile.security_question,
                 'error': "Invalid answer",
             })
@@ -106,12 +106,12 @@ def question_view(request):
         if form.is_valid():
             form.save(
                 request=request,
-                email_template_name='password_reset_email.html',
-                subject_template_name='password_reset_subject.txt',
+                email_template_name='accounts/password_reset_email.html',
+                subject_template_name='accounts/password_reset_subject.txt',
             )
 
             return redirect('/account/reset/done')
 
-    return render(request, 'question_view.html', {
+    return render(request, 'accounts/question_view.html', {
         'question': user.userprofile.security_question,
     })
