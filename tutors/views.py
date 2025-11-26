@@ -52,6 +52,6 @@ def signup_page(request):
 
     else:
         form = TutorForm()
-    return render(request, 'tutor_signup.html', {
+    return render(request, 'tutors/tutor_signup.html', {
         'form': form,
     })
