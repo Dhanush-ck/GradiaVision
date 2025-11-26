@@ -72,7 +72,7 @@ def signup_page(request):
    
     else: 
         form = StudentForm()
-    return render(request, 'student_signup.html', {
+    return render(request, 'students/student_signup.html', {
         'form': form,
     })
 
