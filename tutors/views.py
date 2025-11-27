@@ -56,3 +56,12 @@ def signup_page(request):
     return render(request, 'tutors/signup.html', {
         'form': form,
     })
+
+def dashboard(request):
+
+    user = request.user.userprofile.tutor
+
+    return render(request, 'tutors/dashboard.html', {
+        'name': user.username, 
+        'class_charge': user.class_charge,
+    })
