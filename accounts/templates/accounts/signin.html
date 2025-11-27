@@ -24,6 +24,14 @@
 
         {% if error %}
             <div class="errors"> {{error}} </div>
+
+            {% if error|length == 31  %}
+                <a href="/account/verify/email">Forgot password?</a> <br>
+            {% endif %}
+        {% endif %}
+
+        {% if not error %}
+            <a href="/account/role">Already a user</a> <br>
         {% endif %}
         
         <button type="submit" id="submit-button">Login</button>
