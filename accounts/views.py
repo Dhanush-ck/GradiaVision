@@ -15,10 +15,10 @@ def select_role(request):
 
             if role == 'student':
                 print("student")
+                return redirect('/student/signup')
             elif role == 'tutor':
                 print("tutor")
-            else:
-                print("admin")
+                return redirect('/tutor/signup')
 
     return render(request, 'accounts/role.html')
 
@@ -42,6 +42,12 @@ def signin(request):
             if user is not None:
                 login(request, user)
                 print("Login successfull")
+                if user.userprofile.role == 'student':
+                    print("Redirecting to student dashboard")
+                    return redirect('/student/dashboard')
+                else:
+                    print("Redirecting to tutor dashboard")
+                    return redirect('/tutor/dashboard')
 
             if user_obj is  None:
                 error = "Invalid password or email"
