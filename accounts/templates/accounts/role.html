@@ -9,9 +9,11 @@
 
     <form method="post">
         {% csrf_token %}
+
         Student<input type="radio" name="role" value="student" checked>
-        Tutor<input type="radio" name="role" value="tutor">
-        Admin<input type="radio" name="role" value="admin"> <br>
+        Tutor<input type="radio" name="role" value="tutor"> <br>
+        <!-- Admin<input type="radio" name="role" value="admin"> <br> -->
+         
         <button type="submit" id="submit-button">Submit</button>
     </form>
 
