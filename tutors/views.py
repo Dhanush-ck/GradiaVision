@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
@@ -49,9 +49,10 @@ def signup_page(request):
                     )
 
                     print("Successfull")
+                    return redirect('/account/signin')
 
     else:
         form = TutorForm()
-    return render(request, 'tutors/tutor_signup.html', {
+    return render(request, 'tutors/signup.html', {
         'form': form,
     })
