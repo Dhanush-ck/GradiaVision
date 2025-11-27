@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
@@ -6,6 +6,8 @@ from students.forms import StudentForm
 
 from students.models import Student
 from accounts.models import UserProfile
+
+import math
 
 # Create your views here.
 
@@ -69,10 +71,19 @@ def signup_page(request):
                         )
 
                         print("Successfull")
+                        return redirect('/account/signin')
    
     else: 
         form = StudentForm()
-    return render(request, 'students/student_signup.html', {
+    return render(request, 'students/signup.html', {
         'form': form,
     })
 
+def dashboard(request):
+    user = request.user.userprofile.student
+    current_class = user.course + str(math.ceil(user.semester/2))
+
+    return render(request, 'students/dashboard.html', {
+        'name': user.username,
+        'class': current_class,
+    })
