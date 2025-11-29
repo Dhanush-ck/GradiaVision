@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.views import PasswordResetView
 from django.contrib.auth.forms import PasswordResetForm
@@ -121,3 +121,8 @@ def question_view(request):
     return render(request, 'accounts/question_view.html', {
         'question': user.userprofile.security_question,
     })
+
+def signout(request):
+    logout(request)
+    print("Logout")
+    return redirect('/account/signin/')
