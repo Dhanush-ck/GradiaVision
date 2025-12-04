@@ -7,6 +7,8 @@ from students.forms import StudentForm
 from students.models import Student
 from accounts.models import UserProfile
 
+from students.utils import extract_marklist_data
+
 import math
 
 # Create your views here.
@@ -87,3 +89,6 @@ def dashboard(request):
         'name': user.username,
         'class': current_class,
     })
+
+def pdf_extract(request):
+    ...
