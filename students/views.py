@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
@@ -82,13 +83,36 @@ def signup_page(request):
     })
 
 def dashboard(request):
+    extracted_data = None
     user = request.user.userprofile.student
     current_class = user.course + str(math.ceil(user.semester/2))
+
+    if request.method == "POST":
+        pdf_file = request.FILES.get("pdf")
+        # print(pdf_file)
+
+        if pdf_file:
+            extracted_data = extract_marklist_data(pdf_file)
+
+            # print(extracted_data)
+
+
+            return render(request, 'students/dashboard.html', {
+                'name': user.username,
+                'class': current_class,
+                'data': extracted_data,
+            })
+    else:
+        return render(request, 'students/dashboard.html', {
+            'name': user.username,
+            'class': current_class,
+        })
+        
 
     return render(request, 'students/dashboard.html', {
         'name': user.username,
         'class': current_class,
     })
 
-def pdf_extract(request):
-    ...
+
+     
