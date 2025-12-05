@@ -7,7 +7,7 @@
 </head>
 <body>
     
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
 
         {% csrf_token %}
 
@@ -15,11 +15,72 @@
         Name: {{name}} <br>
         Class: {{class}} <br>
 
-        <a href=" {% url 'signout' %} ">
-            Logout
-        </a>
+        <br>
+        Select marklist: <br>    
+        <input type="file" name="pdf" id="file" accept="application/pdf" required> <br>
+    
+        <button type="submit">Upload</button> <br>
+    
+        <br><br>
+
         
+        {% if data %}
+            Marklist data: <br>
+            Name: {{data.name}} <br>
+            Regno: {{data.regno}} <br>
+            Programme: {{data.programme}} <br>
+            Semester: {{data.semester}} <br> <br>
+
+            <table border=1>
+
+                <tr>
+                    <th>Course code</th>
+                    <th>Course title</th>
+                    <th>Credit</th>
+                    <th>Max mark</th>
+                    <th>CE</th>
+                    <th>ESE</th>
+                    <th>Total</th>
+                    <th>GP</th>
+                    <th>Grade</th>
+                    <th>CP</th>
+                    <th>Result</th>
+                </tr>
+
+                {% for subject in data.subjects %}
+                <tr>
+
+                    <td>{{subject.course_code}}</td>
+                    <td>{{subject.course_title}}</td>
+                    <td>{{subject.credit}}</td>
+                    <td>{{subject.max_mark}}</td>
+                    <td>{{subject.ce}}</td>
+                    <td>{{subject.ese}}</td>
+                    <td>{{subject.total}}</td>
+                    <td>{{subject.gp}}</td>
+                    <td>{{subject.grade}}</td>
+                    <td>{{subject.cp}}</td>
+                    <td>{{subject.result}}</td>
+
+                </tr>
+                {% endfor %}
+            </table>
+            <br>
+
+
+            Total Percentage: {{data.total_percentage}} <br>
+            SGPA: {{data.sgpa}} <br>
+            Grade: {{data.grade}} <br>
+            CGPA: {{data.cgpa}}
+
+        {% endif %}
+
+
     </form>
+
+    <a href=" {% url 'signout' %} ">
+        Logout
+    </a>
 
 </body>
 </html>
