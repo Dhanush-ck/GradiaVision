@@ -1,21 +1,35 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup</title>
+    <link rel="stylesheet" href="{% static "accounts/css/role.css" %}">
 </head>
 <body>
 
-    <form method="post">
-        {% csrf_token %}
+    <div class="container">
 
-        Student<input type="radio" name="role" value="student" checked>
-        Tutor<input type="radio" name="role" value="tutor"> <br>
-        <!-- Admin<input type="radio" name="role" value="admin"> <br> -->
-         
-        <button type="submit" id="submit-button">Submit</button>
-    </form>
+        <div class="container-image" id="container-image">
+            <img src="{% static "accounts/img/three-characters.png" %}" alt="Characters">
+        </div>
 
+        <div class="container-element">
+            <form method="post" >
+                {% csrf_token %}
+        
+                Student<input type="radio" name="role" value="student" checked>
+                Tutor<input type="radio" name="role" value="tutor"> <br>
+                <!-- Admin<input type="radio" name="role" value="admin"> <br> -->
+                 
+                <button type="submit" id="submit-button">Submit</button>
+            </form>
+
+        </div>
+
+    </div>
+    
 </body>
 </html>
