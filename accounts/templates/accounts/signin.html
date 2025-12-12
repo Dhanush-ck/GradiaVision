@@ -5,37 +5,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Signin</title>
     <link rel="stylesheet" href="{% static 'accounts/css/signin.css' %}">
 </head>
 <body>
-    
-    <form method="post">
 
-        {% csrf_token %}
+    <div class="container">
 
-        <!-- Email: <input type="email" name="email" id="email"> <br>
-        Password: <input type="password" name="password" id="password"> <br> -->
-
-        Email: {{form.email}} <br>
-        Password: {{form.password}} <br>
-
-        <div id="email-error" class="errors"></div>
-
-        {% if error %}
-            <div class="errors"> {{error}} </div>
-
-            {% if error|length == 31  %}
-                <a href="/account/verify/email">Forgot password?</a> <br>
-            {% endif %}
-        {% endif %}
-
-        {% if not error %}
-            <a href="/account/role">Create an account</a> <br>
-        {% endif %}
+        <div class="container-element">
+            <form method="post" class="form">
         
-        <button type="submit" id="submit-button">Login</button>
-    </form>
+                {% csrf_token %}
+
+                <h1>Signin</h1>
+
+                <div class="email-holder">
+                    <span>Email</span>
+                    <span> {{form.email}} </span>
+                </div>
+
+                <div class="password-holder">
+                    <span>Password</span>
+                    <span> {{form.password}} </span>
+                </div>
+        
+                <div class="error-holder">
+
+                    <div id="email-error" class="errors"></div>
+            
+                    {% if error %}
+                        <div class="errors"> {{error}} </div>
+            
+                        {% if error|length == 31  %}
+                            <a href="/account/verify/email">Forgot password?</a>
+                        {% endif %}
+                    {% endif %}
+            
+                    {% if not error %}
+                        <a href="/account/role" id="create-account">Create an account</a>
+                        <!-- <span id="create-account"> Create an account</span> -->
+                    {% endif %}
+                    
+                </div>
+                
+                <button type="submit" id="submit-button">Login</button>
+            </form>
+        </div>
+
+        <div class="container-image" id="container-image">
+            <img src="{% static "accounts/img/three-characters.png" %}" alt="Characters">
+        </div>
+
+    </div>
+    
 
     <script src=" {% static "accounts/js/signin.js" %} "></script>
 </body>
