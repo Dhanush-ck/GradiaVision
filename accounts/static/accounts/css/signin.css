@@ -137,3 +137,11 @@
         transform: translateX(-200%);
     }
 } */
+
+
+@media only screen and (max-width: 100vh) {
+    
+    .container-image {
+        display: none;
+    }
+}
