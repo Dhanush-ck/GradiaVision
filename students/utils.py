@@ -1,6 +1,6 @@
 import pdfplumber
 
-def extract_marklist_data(pdf_path):
+def extract_marklist_data_normal(pdf_path):
     data = {}
 
     with pdfplumber.open(pdf_path) as pdf:
@@ -94,3 +94,12 @@ def extract_marklist_data(pdf_path):
     for i, j in data.items():
         print(i, j)
     return data
+
+
+def extract_marklist_data(pdf_path):
+    data = {}
+
+    with pdfplumber.open(pdf_path) as pdf:
+        page = pdf.pages[0]
+
+    return data 
