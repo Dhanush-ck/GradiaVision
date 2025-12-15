@@ -102,4 +102,34 @@ def extract_marklist_data(pdf_path):
     with pdfplumber.open(pdf_path) as pdf:
         page = pdf.pages[0]
 
+        text = page.extract_text()
+
+        lines = text.split("\n")
+
+        for line in lines:
+            if "Name" in line and "Course" not in line:
+                data['name'] = line.split(":")[1].strip()
+
+            elif "Reg No" in line:
+                data['prn'] =  line.split(':')[1][:16].strip()
+                data['regno'] = line.split(" ")[-1].strip()
+
+            elif "Programme" in line:
+                data['programme'] = line.split(":")[1].strip()
+
+            elif "Semester :" in line:
+                semester_text = line.split(":")[-1].strip()
+                if "First" in semester_text:
+                    data['semester'] = 1
+                elif "Second" in semester_text:
+                    data['semester'] = 2
+                elif "Third" in semester_text:
+                    data['semester'] = 3
+                elif "Fourth" in semester_text:
+                    data['semester'] = 4
+                elif "Fifth" in semester_text:
+                    data['semester'] = 5
+                elif "Sixth" in semester_text:
+                    data['semester'] = 6
+
     return data 
