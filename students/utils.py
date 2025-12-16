@@ -132,4 +132,12 @@ def extract_marklist_data(pdf_path):
                 elif "Sixth" in semester_text:
                     data['semester'] = 6
 
+        table = page.extract_table()
+
+        subjects = []
+
+        for row in table[1:]:
+            print(row)
+
+
     return data 
