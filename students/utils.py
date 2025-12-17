@@ -1,4 +1,5 @@
 import pdfplumber
+import re
 
 def extract_marklist_data_normal(pdf_path):
     data = {}
@@ -132,12 +133,30 @@ def extract_marklist_data(pdf_path):
                 elif "Sixth" in semester_text:
                     data['semester'] = 6
 
-        table = page.extract_table()
+        # table = page.extract_table()
 
         subjects = []
+        temp_subject = None
 
-        for row in table[1:]:
-            print(row)
+        COURSE_CODE_PATTERN = r"KU\d+[A-Z]{3,}\d+"
+
+        # for row in table[1:]:
+        #     print(row)
+
+        for line in lines:
+            code_match = re.search(COURSE_CODE_PATTERN, line)
+            if code_match:
+                temp_subject = {
+                    'course_code': code_match.group(),
+                    'theory': None,
+                    'practical': None
+                }
+                subjects.append(temp_subject)
+                # print(code_match.group())
+        print(subjects)
+
+        print(data)
+
 
 
     return data 
