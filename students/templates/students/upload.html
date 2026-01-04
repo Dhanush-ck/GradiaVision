@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+</head>
+<body>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        Select marklist: <br>    
+        <input type="file" name="pdf" id="file" accept="application/pdf" required> <br>
+
+        {% if success %}
+            {{success}}
+        {% endif %}
+
+        {% if error %}
+            {{error}}
+        {% endif %}
+    
+        <button type="submit">Upload</button> <br>
+    </form>
+
+</body>
+</html>
