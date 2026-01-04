@@ -6,9 +6,12 @@ from django.contrib.auth.hashers import make_password
 from students.forms import StudentForm
 
 from students.models import Student
+from students.models import StudentMark
+from students.models import Subject
+from students.models import SemesterResult
 from accounts.models import UserProfile
 
-from students.utils import extract_marklist_data
+from students.utils import extract_marklist_data_fyugp
 
 import math
 
@@ -18,9 +21,9 @@ def signup_page(request):
     if request.method == 'POST':
         form = StudentForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            email = form.cleaned_data['email']
-            regno = form.cleaned_data['regno']
+            username = form.cleaned_data['username'].strip()
+            email = form.cleaned_data['email'].strip()
+            regno = form.cleaned_data['regno'].strip()
             semester = form.cleaned_data['semester']
             department = request.POST.get('department')
             course = request.POST.get('course')
@@ -83,25 +86,17 @@ def signup_page(request):
     })
 
 def dashboard(request):
-    extracted_data = None
     user = request.user.userprofile.student
     current_class = user.course + str(math.ceil(user.semester/2))
 
     if request.method == "POST":
-        pdf_file = request.FILES.get("pdf")
         # print(pdf_file)
 
-        if pdf_file:
-            extracted_data = extract_marklist_data(pdf_file)
-
+        
             # print(extracted_data)
 
 
-            return render(request, 'students/dashboard.html', {
-                'name': user.username,
-                'class': current_class,
-                'data': extracted_data,
-            })
+            ...
     else:
         return render(request, 'students/dashboard.html', {
             'name': user.username,
@@ -114,5 +109,69 @@ def dashboard(request):
         'class': current_class,
     })
 
+def upload(request):
+    extracted_data = None
+    error = None
+    user = request.user.userprofile.student
+
+    if request.method == "POST":
+        pdf_file = request.FILES.get("pdf")
+        extracted_data = extract_marklist_data_fyugp(pdf_file)
+        if extracted_data['name'] != user.username.upper():
+            error = "Upload your marklist"
+            
+            return render(request, 'students/upload.html', {
+                'error': error,
+            })
+        else:
+            for subject in extracted_data['subjects']:
+                if not Subject.objects.filter(course_code=subject['code']).exists():
+                    subject_obj = Subject.objects.create(
+                        course_code=subject['code'],
+                        name=subject['name'],
+                        credits=subject['credit']
+                    )
+                else:
+                    subject_obj = Subject.objects.get(course_code=subject['code'])
+                StudentMark.objects.create(
+                    student=user,
+                    subject=subject_obj,
+                    semester=extracted_data['semester'],
+                    assessment_type='TH',
+                    cca_max=subject['TH']['max']['cca'],
+                    ese_max=subject['TH']['max']['ese'],
+                    cca_score=subject['TH']['awarded']['cca'],
+                    ese_score=subject['TH']['awarded']['ese'],
+                    total_max=subject['TH']['max']['cca']+subject['TH']['max']['ese'],
+                    total=subject['TH']['awarded']['cca']+subject['TH']['awarded']['ese'],
+                )
+                if 'PR' in subject:
+                    StudentMark.objects.create(
+                        student=user,
+                        subject=subject_obj,
+                        semester=extracted_data['semester'],
+                        assessment_type='PR',
+                        cca_max=subject['PR']['max']['cca'],
+                        ese_max=subject['PR']['max']['ese'],
+                        cca_score=subject['PR']['awarded']['cca'],
+                        ese_score=subject['PR']['awarded']['ese'],
+                        total_max=subject['PR']['max']['cca']+subject['PR']['max']['ese'],
+                        total=subject['PR']['awarded']['cca']+subject['PR']['awarded']['ese'],
+                    )
+
+            SemesterResult.objects.create(
+                student=user,
+                semester=extracted_data['semester'],
+                sgpa=extracted_data['sgpa'],
+                total_credits=extracted_data['total']['credit']
+            )
+            success = "File Upload Successfull"
+        return render(request, 'students/upload.html', {
+            'success': success,
+        })
+
+    return render(request, 'students/upload.html', {
+        'error': error,
+    })
 
      
