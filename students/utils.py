@@ -97,7 +97,7 @@ def extract_marklist_data_normal(pdf_path):
     return data
 
 
-def extract_marklist_data(pdf_path):
+def extract_marklist_data_fyugp(pdf_path):
     data = {}
 
     with pdfplumber.open(pdf_path) as pdf:
@@ -105,7 +105,7 @@ def extract_marklist_data(pdf_path):
 
         text = page.extract_text()
 
-        lines = text.split("\n")
+        lines = [l.strip() for l in text.split("\n") if l.strip()]
 
         for line in lines:
             if "Name" in line and "Course" not in line:
@@ -118,45 +118,92 @@ def extract_marklist_data(pdf_path):
             elif "Programme" in line:
                 data['programme'] = line.split(":")[1].strip()
 
-            elif "Semester :" in line:
+            elif "Semester:" in line:
                 semester_text = line.split(":")[-1].strip()
-                if "First" in semester_text:
+                if "FIRST" in semester_text:
                     data['semester'] = 1
-                elif "Second" in semester_text:
+                elif "SECOND" in semester_text:
                     data['semester'] = 2
-                elif "Third" in semester_text:
+                elif "THIRD" in semester_text:
                     data['semester'] = 3
-                elif "Fourth" in semester_text:
+                elif "FOURTH" in semester_text:
                     data['semester'] = 4
-                elif "Fifth" in semester_text:
+                elif "FIFTH" in semester_text:
                     data['semester'] = 5
-                elif "Sixth" in semester_text:
+                elif "SIXTH" in semester_text:
                     data['semester'] = 6
 
-        # table = page.extract_table()
+        table = page.extract_table()
 
+        i = 2
+        filtered_table = []
+        while i < len(table):
+            count = 0
+            for j in table[i]:
+                if j == None:
+                    count = count + 1
+                    
+            if count > 9 and not table[i][0].startswith('SGPA'):
+                i = i + 1
+                continue
+            
+            filtered_table.append(table[i])
+            i = i + 1
+
+        i = 0
         subjects = []
-        temp_subject = None
+        while i < len(filtered_table)-2:
+            subject = {}
+            subject['code'] = filtered_table[i][0]
+            subject['name'] = filtered_table[i][1]
+            subject['credit'] = int(filtered_table[i][3])
+            subject['max'] = {}
+            subject['TH'] = {}
+            subject['TH']['max'] = {}
+            subject['TH']['awarded'] = {}
+            subject['TH']['max']['cca'] = check_data(filtered_table[i][4])
+            subject['TH']['max']['ese'] = check_data(filtered_table[i][5])
+            subject['max']['total'] = check_data(filtered_table[i][6])
+            subject['TH']['awarded']['cca'] = check_data(filtered_table[i][7])
+            subject['TH']['awarded']['ese'] = check_data(filtered_table[i][8])
+            subject['max']['awarded']= check_data(filtered_table[i][9])
+            if i != len(filtered_table)-3:
+                if filtered_table[i+1][0] == None:
+                    subject['PR'] = {}
+                    subject['PR']['max'] = {}
+                    subject['PR']['awarded'] = {}
+                    subject['PR']['max']['cca'] = check_data(filtered_table[i+1][4])
+                    subject['PR']['max']['ese'] = check_data(filtered_table[i+1][5])
+                    subject['PR']['awarded']['cca'] = check_data(filtered_table[i+1][7])
+                    subject['PR']['awarded']['ese'] = check_data(filtered_table[i+1][8])
 
-        COURSE_CODE_PATTERN = r"KU\d+[A-Z]{3,}\d+"
-
-        # for row in table[1:]:
-        #     print(row)
-
-        for line in lines:
-            code_match = re.search(COURSE_CODE_PATTERN, line)
-            if code_match:
-                temp_subject = {
-                    'course_code': code_match.group(),
-                    'theory': None,
-                    'practical': None
-                }
-                subjects.append(temp_subject)
-                # print(code_match.group())
-        print(subjects)
-
-        print(data)
-
-
-
+                    subject['gp'] = int(filtered_table[i][10])
+                    subject['grade'] = filtered_table[i][11]
+                    subject['cp'] = int(filtered_table[i][12])
+                    subject['result'] = filtered_table[i][13]
+                    subjects.append(subject)
+                    i = i + 2
+                    continue
+            subjects.append(subject)
+            i = i + 1
+        data['subjects'] = subjects
+        data['total'] = {}
+        data['total']['credit'] = filtered_table[-2][3]
+        data['total']['max'] = filtered_table[-2][6]
+        data['total']['awarded'] = filtered_table[-2][9]
+        data['total']['cp'] = filtered_table[-2][12]
+        data['sgpa'] = float(filtered_table[-1][0].split(':')[1].strip()[0:4])
+        # for i in filtered_table:
+        #     print(i)
+        # for i in courses_list:
+        #     print(i)
+        # for i in data.items():
+        #     print(i)
     return data 
+
+def check_data(digital_data):
+    if digital_data.isdigit():
+        return int(digital_data)
+    else:
+        return 0
+
