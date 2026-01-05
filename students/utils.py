@@ -36,10 +36,6 @@ def extract_marklist_data_normal(pdf_path):
                 elif "Sixth" in semester_text:
                     data['semester'] = 6
 
-
-
-        # print(data)
-
         table = page.extract_table()
 
         subjects = []
@@ -71,26 +67,14 @@ def extract_marklist_data_normal(pdf_path):
 
         data["subjects"] = subjects
 
-        # for i in subjects:
-        #     print(i.values())
-
-
         for line in lines:
             if "Total Marks (%)" in line:
                 data["total_percentage"] = line.split()[3]
                 data["sgpa"] = line.split()[5]
                 data["grade"] = line.split()[7]
-                # print(line.split()[3])
-                # print(line.split()[5])
-                # print(line.split()[7])
-            # if "CGPA" in line and "SGPA" in line:
-            #     data["cgpa"] = line.split()[-1]
-            #     # print(line.split()[-1])
-            #     print(line)
 
         tables = page.extract_tables()
         data["cgpa"] = tables[1][2][-1]
-        # print(tables[1][2][-1])
 
     for i, j in data.items():
         print(i, j)
@@ -193,12 +177,6 @@ def extract_marklist_data_fyugp(pdf_path):
         data['total']['awarded'] = filtered_table[-2][9]
         data['total']['cp'] = filtered_table[-2][12]
         data['sgpa'] = float(filtered_table[-1][0].split(':')[1].strip()[0:4])
-        # for i in filtered_table:
-        #     print(i)
-        # for i in courses_list:
-        #     print(i)
-        # for i in data.items():
-        #     print(i)
     return data 
 
 def check_data(digital_data):
