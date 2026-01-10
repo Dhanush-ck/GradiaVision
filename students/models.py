@@ -23,10 +23,11 @@ class Student(models.Model):
 class Subject(models.Model):
     course_code = models.CharField(max_length=20, unique=True)
     name = models.CharField(max_length=200)
+    semester = models.IntegerField(default=0)
     credits = models.IntegerField()
 
     def __str__(self):
-        return f"{self.course_code} - Subject"
+        return f"{self.course_code} - {self.semester} - Subject"
     
 class StudentMark(models.Model):
     ASSESSMENT_CHOICES = [
