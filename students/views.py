@@ -129,6 +129,7 @@ def upload(request):
                     subject_obj = Subject.objects.create(
                         course_code=subject['code'],
                         name=subject['name'],
+                        semester=extracted_data['semester'],
                         credits=subject['credit']
                     )
                 else:
