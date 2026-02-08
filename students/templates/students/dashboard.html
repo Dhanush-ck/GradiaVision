@@ -1,29 +1,44 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'students/css/dashboard.css' %}">
 </head>
 <body>
+
+    <div class="container">
+
+        <div class="topbar">
+            <span>
+                Dashboard
+            </span>
+            <a href=" {% url 'signout' %} ">
+                <img src="{% static 'img/logout.png' %}" alt="">
+            </a>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" id="form">
     
-    <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
 
-        {% csrf_token %}
 
-        This is student Dashboard <br>
-        Name: {{name}} <br>
-        Class: {{class}} <br>
+            Name: {{name}} <br>
+            Class: {{class}} <br>
+    
+            <a href=" {% url 'upload' %} ">
+                Upload Marklist
+            </a>
+    
+        </form>
 
-        <a href=" {% url 'upload' %} ">
-            Upload
-        </a>
 
-    </form>
+    </div>
+    
 
-    <a href=" {% url 'signout' %} ">
-        Logout
-    </a>
 
 </body>
 </html>
