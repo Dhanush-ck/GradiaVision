@@ -1,28 +1,45 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload</title>
+    <link rel="stylesheet" href="{% static 'students/css/upload.css' %}">
 </head>
 <body>
+
+    <div class="container">
+
+        <form method="post" enctype="multipart/form-data" id="upload">
+            {% csrf_token %}
     
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+            <input type="file" name="pdf" id="file" accept="application/pdf" required hidden> 
 
-        Select marklist: <br>    
-        <input type="file" name="pdf" id="file" accept="application/pdf" required> <br>
-
-        {% if success %}
-            {{success}}
-        {% endif %}
-
-        {% if error %}
-            {{error}}
-        {% endif %}
+            <label for="file" class="file-upload">
+                <!-- <span>Choose file </span> -->
+                <img src="{% static 'img/upload.png' %}" alt="">
+                <span id="filename"></span>
+            </label>
     
-        <button type="submit">Upload</button> <br>
-    </form>
+            {% if success %}
+                <div class="error">
+                    {{success}}
+                </div>
+            {% endif %}
+    
+            {% if error %}
+                <div class="error"> 
+                    {{error}} 
+                </div>
+            {% endif %}
+        
+            <button type="submit" id="upload-btn">Upload</button>
+        </form>
 
+    </div>
+    
+    <script src="{% static 'students/js/upload.js' %}"></script>
 </body>
 </html>
