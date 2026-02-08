@@ -1,15 +1,30 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" href="{% static 'pages/css/home.css' %}">
 </head>
 <body>
-    This is the homepage <br>
 
-    <a href="/account/signin">
-        <button>Signin</button> <br>
-    </a>
+    <div class="container">
+        <div class="topbar">
+            <div class="topbar-text">GRADIAVISION</div>
+            <div class="topbar-button">
+                <a href="/account/signin">
+                    Signin
+                </a>
+            </div>
+        </div>
+        <div class="content">
+            <div class="header">
+                GRADIAVISION
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
