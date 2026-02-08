@@ -8,33 +8,54 @@
     <link rel="stylesheet" href="{% static 'tutors/css/signup.css' %}">
 </head>
 <body>
-    <form method="post">
 
-        {% csrf_token %}
-        
-        Name: {{form.username}} <br>
+    <div class="container">
+        <div class="container-image" id="container-image">
+            <img src="{% static "accounts/img/three-characters.png" %}" alt="Characters">
+        </div>
 
-        Email: {{form.email}} <br>
-        <div id="email-error" class="errors"></div>
-        {% if form.email.errors %}
-            <div class="errors"> {{form.email.errors.0}} </div>
-        {% endif %}
-        
-        Class in charge: {{form.class_charge}} <br>
-        
-        Password: {{form.password}} <br>
-        
-        Confirm Password: <input type="password" name="confirmPassword" id="confirm-password" placeholder="Confirm Password"> <br>
-        {% if form.password.errors %}
-            <div class="errors"> {{form.password.errors.0}} </div>
-        {% endif %}
+        <div class="container-element">
 
-        Question: {{form.security_question}} <br>
-        Answer: {{form.security_answer}} <br>
+            <form method="post" id="signUpForm">
         
-        <button type="submit" id="submit-button">Submit</button>
+                {% csrf_token %}
+                
+                Name
+                {{form.username}}
+        
+                Email
+                {{form.email}}
 
-        <script src="{% static 'tutors/js/signup.js' %}"></script>
-    </form>
+                <div id="email-error" class="error"></div>
+
+                {% if form.email.errors %}
+                    <div class="error"> {{form.email.errors.0}} </div>
+                {% endif %}
+                
+                Class in charge
+                {{form.class_charge}}
+                
+                Password
+                {{form.password}}
+                
+                Confirm Password
+                <input type="password" name="confirmPassword" id="confirm-password" placeholder="Confirm Password">
+
+                {% if form.password.errors %}
+                    <div class="error"> {{form.password.errors.0}} </div>
+                {% endif %}
+        
+                Question
+                {{form.security_question}}
+                Answer
+                {{form.security_answer}}
+                
+                <button type="submit" id="submit-button">Submit</button>
+        
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'tutors/js/signup.js' %}"></script>
 </body>
 </html>
