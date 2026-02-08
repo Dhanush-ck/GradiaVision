@@ -8,52 +8,75 @@
     <link rel="stylesheet" href="{% static 'students/css/signup.css' %}">
 </head>
 <body>
-    <form method="post" id="signUpForm">
-        {% csrf_token %}
 
-        Name: {{form.username}} <br>
+    <div class="container">
+        <div class="container-image" id="container-image">
+            <img src="{% static "accounts/img/three-characters.png" %}" alt="Characters">
+        </div>
 
-        Email: {{form.email}} <br>
-        <div id="email-error" class="error"></div>
-        {% if form.email.errors %}
-            <div class="error"> {{form.email.errors.0}} </div>
-        {% endif %}
+        <div class="container-element">
 
-        Registration no: {{form.regno}} <br>
-        {% if form.regno.errors %}
-            <div class="error"> {{form.regno.errors.0}} </div>
-        {% endif %}
-
-        Semester: {{form.semester}} <br>
-        <div id="semester-error" class="error"></div>
-
-        Department: 
-        <select name="department" id="department">
-            <option value="Commerce" >Department of Commerce</option>
-            <option value="Computer Science" selected>Department of Computer Science</option>
-            <option value="History">Department of History</option>
-        </select> 
-        <br>
-
-        Course:
-        <select name="course" id="course">
-
-        </select>
-        <br>
-
-        <!-- Password: <input type="password" name="password" id="password"> <br> -->
-        Password: {{form.password}} <br>
-        Confirm Password: <input type="password" name="confirmPassword" id="confirm-password" placeholder="Confirm password"> <br>
-        {% if form.password.errors %}
-            <div class="error"> {{form.password.errors.0}} </div>
-        {% endif %}
-        <div id="password-error" class="error"></div>
-
-        Question: {{form.security_question}} <br>
-        Answer: {{form.security_answer}} <br>
+            <form method="post" id="signUpForm">
+                {% csrf_token %}
         
-        <button id="submit-button" type="submit">Submit</button>
-    </form>
+                Name
+                {{form.username}}
+        
+                Email
+                {{form.email}}
+
+                <div id="email-error" class="error"></div>
+
+                {% if form.email.errors %}
+                    <div class="error"> {{form.email.errors.0}} </div>
+                {% endif %}
+        
+                Registration no
+                {{form.regno}}
+
+                {% if form.regno.errors %}
+                    <div class="error"> {{form.regno.errors.0}} </div>
+                {% endif %}
+        
+                Semester
+                {{form.semester}} 
+
+                <div id="semester-error" class="error"></div>
+        
+                Department
+                <select name="department" id="department">
+                    <option value="Commerce" >Department of Commerce</option>
+                    <option value="Computer Science" selected>Department of Computer Science</option>
+                    <option value="History">Department of History</option>
+                </select>
+        
+                Course:
+                <select name="course" id="course">
+        
+                </select>
+        
+                Password
+                {{form.password}}
+
+                Confirm Password
+                <input type="password" name="confirmPassword" id="confirm-password" placeholder="Confirm password">
+
+                {% if form.password.errors %}
+                    <div class="error"> {{form.password.errors.0}} </div>
+                {% endif %}
+                <div id="password-error" class="error"></div>
+        
+                Question
+                {{form.security_question}} 
+                
+                Answer
+                {{form.security_answer}}
+                
+                <button id="submit-button" type="submit">Submit</button>
+            </form>
+
+        </div>
+    </div>
     <script src="{% static "students/js/signup.js" %}"></script>
 </body>
 </html>
