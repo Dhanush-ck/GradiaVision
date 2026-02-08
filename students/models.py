@@ -37,7 +37,7 @@ class StudentMark(models.Model):
 
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    semester = models.IntegerField()
+    semester = models.IntegerField(default=1)
 
     assessment_type = models.CharField(
         max_length=2,
