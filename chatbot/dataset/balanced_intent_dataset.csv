@@ -1,0 +1,496 @@
+text,intent
+too much pressure please,stress_motivation
+can you help me with my routine,study_tips
+mentor i need a pep talk,stress_motivation
+low attendance problem,attendance_issue
+is 69% possible,target_percentage
+morning mentor mentor,greeting
+marks are low please,study_tips
+hi bro sir,greeting
+how to stay positive sir,stress_motivation
+feeling anxious about results bro,stress_motivation
+target is 85 percent bro,target_percentage
+tips to score 95%,target_percentage
+can i get attendance help me,attendance_issue
+too much pressure mentor,stress_motivation
+how can i get 60% sir,target_percentage
+hi,greeting
+how to stay motivated bro,stress_motivation
+i want to get 52%,target_percentage
+feeling anxious sir,stress_motivation
+tips for exams,study_tips
+i am burnt out please,stress_motivation
+need some motivation please,stress_motivation
+feeling anxious please,stress_motivation
+hi there bro,greeting
+lack of motivation sir,stress_motivation
+how to study better sir,study_tips
+effective study techniques,study_tips
+sir any tips for finals bro,study_tips
+please fix my attendance sir help me,attendance_issue
+how to stay motivated please,stress_motivation
+emergency leave sir,attendance_issue
+how to stay positive help me,stress_motivation
+sorry sir i was sick mentor,attendance_issue
+target is 50 percent bro,target_percentage
+how to secure 80%,target_percentage
+hey sir,greeting
+mentor my attendance is short help me,attendance_issue
+suggest study plan sir,study_tips
+how to improve performance sir,study_tips
+give me some encouragement,stress_motivation
+sir i am overwhelmed,stress_motivation
+can i get attendance mentor,attendance_issue
+i am burnt out,stress_motivation
+how to reach 50% please,target_percentage
+feeling demotivated mentor,stress_motivation
+good evening please,greeting
+how to study better bro,study_tips
+is 51 percent possible,target_percentage
+my goal is 92 percent,target_percentage
+emergency leave,attendance_issue
+greetings mentor,greeting
+hey sir mentor,greeting
+good evening,greeting
+hello please help bro,greeting
+mentor i need a pep talk bro,stress_motivation
+how to reach 85% sir,target_percentage
+good day sir,greeting
+hi bro please,greeting
+how do i study better sir,study_tips
+mentor i am aiming for 66%,target_percentage
+academic pressure mentor,stress_motivation
+good afternoon help me,greeting
+mentor i am aiming for 52 percent,target_percentage
+hi mentor,greeting
+bro i forgot to sign the sheet mentor,attendance_issue
+exam stress bro,stress_motivation
+tips for exams help me,study_tips
+effective study techniques bro,study_tips
+academic pressure bro,stress_motivation
+tips to score 80% please,target_percentage
+how to improve performance please,study_tips
+my goal is 55%,target_percentage
+best way to learn help me,study_tips
+mentor i need a pep talk mentor,stress_motivation
+low attendance problem sir,attendance_issue
+how to improve attendance bro,attendance_issue
+sorry sir i was sick bro,attendance_issue
+medical leave bro,attendance_issue
+need guidance for studies mentor,study_tips
+academic pressure,stress_motivation
+how to secure 75% bro,target_percentage
+please fix my attendance sir,attendance_issue
+hello please help,greeting
+suggest study plan mentor,study_tips
+feeling down mentor sir,stress_motivation
+how can i get 60% bro,target_percentage
+bro how to pass sir,study_tips
+feeling demotivated bro,stress_motivation
+i was absent yesterday mentor,attendance_issue
+good afternoon sir,greeting
+how to improve grades bro,study_tips
+is 61% possible,target_percentage
+low attendance problem bro,attendance_issue
+greetings please,greeting
+feeling anxious mentor,stress_motivation
+hey,greeting
+mentor my attendance is short mentor,attendance_issue
+i am feeling stressed mentor,stress_motivation
+how do i study better mentor,study_tips
+morning mentor,greeting
+good day bro,greeting
+mentor i need a pep talk help me,stress_motivation
+attendance shortage sir,attendance_issue
+how to improve marks bro,study_tips
+sir any tips for finals help me,study_tips
+low attendance problem please,attendance_issue
+how to stay positive bro,stress_motivation
+good evening mentor,greeting
+how do i study better help me,study_tips
+give me some encouragement please,stress_motivation
+how to stay motivated sir,stress_motivation
+effective study techniques sir,study_tips
+morning mentor sir,greeting
+i am burnt out sir,stress_motivation
+how to stay motivated,stress_motivation
+how to prepare for exams please,study_tips
+target is 50% please,target_percentage
+greetings,greeting
+how to improve performance bro,study_tips
+please help me get 90%,target_percentage
+feeling anxious about results help me,stress_motivation
+bro i need 59% at least,target_percentage
+yo help me,greeting
+give me study advice please,study_tips
+aiming for 80% please,target_percentage
+target is 60 percent bro,target_percentage
+emergency leave bro,attendance_issue
+bro how to pass please,study_tips
+sir i am overwhelmed bro,stress_motivation
+need 75% in exams please,target_percentage
+give me some encouragement help me,stress_motivation
+bro i need 77% at least,target_percentage
+need some motivation mentor,stress_motivation
+i want to get 85%,target_percentage
+i want to get 51 percent,target_percentage
+i am burnt out help me,stress_motivation
+best way to learn mentor,study_tips
+study plan please mentor,study_tips
+i am feeling stressed,stress_motivation
+study plan please please,study_tips
+i am stressed,stress_motivation
+hello mentor sir,greeting
+i am stressed bro,stress_motivation
+hi bro help me,greeting
+medical leave sir,attendance_issue
+please help me get 94 percent,target_percentage
+i was absent yesterday help me,attendance_issue
+risk due to attendance mentor,attendance_issue
+how to prepare for exams,study_tips
+feeling demotivated,stress_motivation
+risk due to attendance sir,attendance_issue
+target is 64 percent please,target_percentage
+feeling anxious about results sir,stress_motivation
+sir any tips for finals mentor,study_tips
+please motivate me bro,stress_motivation
+please motivate me please,stress_motivation
+hey mentor,greeting
+how to focus sir,study_tips
+hi there mentor,greeting
+too much pressure bro,stress_motivation
+need 70% in exams mentor,target_percentage
+please motivate me,stress_motivation
+too much pressure,stress_motivation
+attendance is low sir,attendance_issue
+target is 90 percent sir,target_percentage
+sorry sir i was sick help me,attendance_issue
+i am stressed mentor,stress_motivation
+suggest study plan,study_tips
+good afternoon bro,greeting
+study plan please,study_tips
+will i be debarred for low attendance bro,attendance_issue
+how to study better please,study_tips
+attendance shortage please,attendance_issue
+attendance problem sir,attendance_issue
+hi bro bro,greeting
+target is 65 percent sir,target_percentage
+hello please help please,greeting
+i want 90 percent,target_percentage
+how to manage my time for exams mentor,study_tips
+i was absent yesterday,attendance_issue
+bro i forgot to sign the sheet help me,attendance_issue
+good evening sir,greeting
+is 80 percent possible,target_percentage
+i want 85 percent mentor,target_percentage
+effective study techniques please,study_tips
+is 51% possible,target_percentage
+bro i need 83% at least,target_percentage
+bro i want to quit sir,stress_motivation
+can i score 73 percent,target_percentage
+my goal is 75 percent,target_percentage
+hello please,greeting
+give me study advice sir,study_tips
+i am feeling stressed help me,stress_motivation
+target is 65 percent bro,target_percentage
+how to improve marks sir,study_tips
+good afternoon,greeting
+i am stressed sir,stress_motivation
+yo bro,greeting
+aiming for 75% mentor,target_percentage
+i want to get 51%,target_percentage
+hey mentor bro,greeting
+is 62% possible,target_percentage
+how to prepare for exams bro,study_tips
+will i be debarred for low attendance,attendance_issue
+attendance issue sir,attendance_issue
+how to manage my time for exams,study_tips
+not scoring well,study_tips
+i am stressed please,stress_motivation
+how to stay positive please,stress_motivation
+mentor i need study tips please,study_tips
+hey mentor mentor,greeting
+is 70 percent possible,target_percentage
+how to secure 85% sir,target_percentage
+hey please,greeting
+will i be debarred for low attendance please,attendance_issue
+i missed class mentor,attendance_issue
+aiming for 90% mentor,target_percentage
+risk due to attendance bro,attendance_issue
+how to improve grades help me,study_tips
+lack of motivation,stress_motivation
+how to improve attendance,attendance_issue
+hello mentor help me,greeting
+how to focus please,study_tips
+my attendance is low please,attendance_issue
+i was absent yesterday bro,attendance_issue
+hi sir sir,greeting
+bro i want to quit help me,stress_motivation
+i want to get 55 percent,target_percentage
+good afternoon please,greeting
+not scoring well mentor,study_tips
+i am burnt out bro,stress_motivation
+feeling anxious about results,stress_motivation
+academic pressure sir,stress_motivation
+good evening bro,greeting
+can i get attendance please,attendance_issue
+good morning mentor,greeting
+how to manage my time for exams sir,study_tips
+give me study tips please,study_tips
+attendance is low please,attendance_issue
+feeling down mentor help me,stress_motivation
+attendance is low help me,attendance_issue
+mentor i need study tips sir,study_tips
+attendance problem,attendance_issue
+best way to learn,study_tips
+suggest study plan please,study_tips
+how to improve marks,study_tips
+hey help me,greeting
+how to improve attendance sir,attendance_issue
+attendance issue mentor,attendance_issue
+how to prepare for exams mentor,study_tips
+mentor my attendance is short bro,attendance_issue
+i was absent yesterday please,attendance_issue
+feeling down mentor,stress_motivation
+need some motivation help me,stress_motivation
+feeling anxious bro,stress_motivation
+attendance problem help me,attendance_issue
+target is 61% please,target_percentage
+mentor my attendance is short please,attendance_issue
+how to improve performance mentor,study_tips
+i missed class please,attendance_issue
+will i be debarred for low attendance mentor,attendance_issue
+i missed class help me,attendance_issue
+i was absent yesterday sir,attendance_issue
+hello mentor please,greeting
+yo sir,greeting
+give me study advice bro,study_tips
+sorry sir i was sick sir,attendance_issue
+attendance shortage,attendance_issue
+how to manage my time for exams please,study_tips
+sir i am overwhelmed help me,stress_motivation
+target is 70 percent bro,target_percentage
+medical leave please,attendance_issue
+how to reach 90%,target_percentage
+please motivate me sir,stress_motivation
+bro i forgot to sign the sheet please,attendance_issue
+bro how to pass help me,study_tips
+hey sir please,greeting
+exam stress,stress_motivation
+how to prepare for exams sir,study_tips
+mentor i need a pep talk sir,stress_motivation
+please fix my attendance sir please,attendance_issue
+good morning help me,greeting
+hi there help me,greeting
+emergency leave please,attendance_issue
+greetings help me,greeting
+need some motivation,stress_motivation
+emergency leave mentor,attendance_issue
+effective study techniques mentor,study_tips
+hello bro,greeting
+can you help me with my routine mentor,study_tips
+how can i get 50% sir,target_percentage
+how to secure 50% mentor,target_percentage
+give me some encouragement bro,stress_motivation
+aiming for 70% please,target_percentage
+need guidance for studies bro,study_tips
+aiming for 65% bro,target_percentage
+hey mentor sir,greeting
+low attendance problem mentor,attendance_issue
+hello mentor mentor,greeting
+my attendance is low mentor,attendance_issue
+bro how to pass bro,study_tips
+morning mentor please,greeting
+not scoring well sir,study_tips
+hey bro,greeting
+attendance is low,attendance_issue
+good morning bro,greeting
+can i score 52 percent,target_percentage
+lack of motivation please,stress_motivation
+is 55 percent possible,target_percentage
+best way to learn please,study_tips
+need 95% in exams please,target_percentage
+attendance problem mentor,attendance_issue
+can i score 88%,target_percentage
+how to improve grades,study_tips
+aiming for 65%,target_percentage
+attendance problem bro,attendance_issue
+my goal is 59%,target_percentage
+tips to score 95% please,target_percentage
+feeling down mentor please,stress_motivation
+greetings sir,greeting
+my attendance is low bro,attendance_issue
+tips to score 60% sir,target_percentage
+give me some encouragement sir,stress_motivation
+i missed class,attendance_issue
+will i be debarred for low attendance help me,attendance_issue
+tips for exams bro,study_tips
+i want 80 percent mentor,target_percentage
+feeling anxious,stress_motivation
+study plan please sir,study_tips
+lack of motivation mentor,stress_motivation
+good afternoon mentor,greeting
+hi there,greeting
+sir any tips for finals,study_tips
+good day mentor,greeting
+exam stress sir,stress_motivation
+bro i want to quit,stress_motivation
+how to improve marks mentor,study_tips
+hi please,greeting
+give me study tips sir,study_tips
+how to reach 90% mentor,target_percentage
+hey sir bro,greeting
+can you help me with my routine bro,study_tips
+how can i get 85% sir,target_percentage
+hi sir mentor,greeting
+hey mentor please,greeting
+attendance issue please,attendance_issue
+i want 85 percent please,target_percentage
+how to reach 80% bro,target_percentage
+target is 55% please,target_percentage
+feeling anxious about results mentor,stress_motivation
+risk due to attendance,attendance_issue
+not scoring well please,study_tips
+how to improve performance,study_tips
+can i get attendance sir,attendance_issue
+how can i get 55% mentor,target_percentage
+hi bro,greeting
+can you help me with my routine help me,study_tips
+study plan please bro,study_tips
+feeling down mentor bro,stress_motivation
+how to focus bro,study_tips
+feeling demotivated sir,stress_motivation
+how do i study better,study_tips
+hello please help sir,greeting
+aiming for 65% please,target_percentage
+trying to hit 67 percent this sem,target_percentage
+trying to hit 80% this sem,target_percentage
+i am burnt out mentor,stress_motivation
+aiming for 65% sir,target_percentage
+sir i am overwhelmed mentor,stress_motivation
+need 80% in exams please,target_percentage
+bro i forgot to sign the sheet,attendance_issue
+can i get attendance,attendance_issue
+exam stress please,stress_motivation
+i want to get 74 percent,target_percentage
+sorry sir i was sick please,attendance_issue
+i am feeling stressed sir,stress_motivation
+can i get attendance bro,attendance_issue
+sir i am overwhelmed sir,stress_motivation
+lack of motivation bro,stress_motivation
+bro i want to quit bro,stress_motivation
+need guidance for studies sir,study_tips
+how to focus,study_tips
+target is 87% please,target_percentage
+i missed class bro,attendance_issue
+hey sir sir,greeting
+marks are low,study_tips
+how to reach 70% mentor,target_percentage
+give me study tips mentor,study_tips
+hello mentor bro,greeting
+good day help me,greeting
+morning mentor bro,greeting
+can i score 57 percent,target_percentage
+attendance issue,attendance_issue
+can you help me with my routine please,study_tips
+how to secure 65% bro,target_percentage
+marks are low mentor,study_tips
+target is 67% please,target_percentage
+need 50% in exams sir,target_percentage
+i want to get 98%,target_percentage
+how to focus mentor,study_tips
+hi bro mentor,greeting
+please motivate me mentor,stress_motivation
+trying to hit 86 percent this sem,target_percentage
+mentor i need study tips help me,study_tips
+hi sir please,greeting
+sir any tips for finals sir,study_tips
+how can i get 60% mentor,target_percentage
+bro i want to quit mentor,stress_motivation
+hi sir bro,greeting
+attendance issue bro,attendance_issue
+need 75% in exams,target_percentage
+tips to score 60% mentor,target_percentage
+how to secure 55% sir,target_percentage
+mentor i need study tips,study_tips
+mentor i need study tips bro,study_tips
+need guidance for studies please,study_tips
+i want to get 69%,target_percentage
+can you help me with my routine sir,study_tips
+hello sir,greeting
+too much pressure help me,stress_motivation
+hi help me,greeting
+my attendance is low,attendance_issue
+need some motivation sir,stress_motivation
+feeling demotivated please,stress_motivation
+study plan please help me,study_tips
+medical leave help me,attendance_issue
+risk due to attendance please,attendance_issue
+too much pressure sir,stress_motivation
+best way to learn bro,study_tips
+please fix my attendance sir bro,attendance_issue
+attendance shortage bro,attendance_issue
+give me study tips bro,study_tips
+sir i am overwhelmed please,stress_motivation
+can i score 89%,target_percentage
+hi there please,greeting
+sir any tips for finals please,study_tips
+medical leave mentor,attendance_issue
+my attendance is low sir,attendance_issue
+not scoring well bro,study_tips
+mentor i need study tips mentor,study_tips
+how to improve attendance mentor,attendance_issue
+tips for exams please,study_tips
+how do i study better bro,study_tips
+how to stay positive,stress_motivation
+is 72 percent possible,target_percentage
+hello help me,greeting
+tips for exams mentor,study_tips
+how to reach 71% sir,target_percentage
+please help me get 66%,target_percentage
+yo mentor,greeting
+how to improve grades please,study_tips
+sorry sir i was sick,attendance_issue
+i want to get 61 percent,target_percentage
+trying to hit 51 percent this sem,target_percentage
+how to improve attendance please,attendance_issue
+marks are low bro,study_tips
+how to study better mentor,study_tips
+i am feeling stressed please,stress_motivation
+how to reach 70% please,target_percentage
+bro i need 99 percent at least,target_percentage
+need guidance for studies,study_tips
+how to improve grades mentor,study_tips
+hello mentor,greeting
+attendance is low bro,attendance_issue
+give me study advice mentor,study_tips
+will i be debarred for low attendance sir,attendance_issue
+good morning sir,greeting
+how to stay motivated mentor,stress_motivation
+yo,greeting
+exam stress mentor,stress_motivation
+feeling anxious about results please,stress_motivation
+marks are low sir,study_tips
+hey sir help me,greeting
+good morning,greeting
+hi sir,greeting
+mentor my attendance is short sir,attendance_issue
+tips for exams sir,study_tips
+academic pressure please,stress_motivation
+give me study tips,study_tips
+attendance shortage mentor,attendance_issue
+bro i forgot to sign the sheet bro,attendance_issue
+i missed class sir,attendance_issue
+hello,greeting
+i want 95 percent bro,target_percentage
+tips to score 80% bro,target_percentage
+bro i need 100% at least,target_percentage
+good morning please,greeting
+give me study advice,study_tips
+how to study better,study_tips
+i want to get 73 percent,target_percentage
+suggest study plan bro,study_tips
+how to improve marks please,study_tips
+please fix my attendance sir mentor,attendance_issue
+hello please help help me,greeting
+hi there sir,greeting
