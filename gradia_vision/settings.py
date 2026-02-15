@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'pages',
     'students',
     'tutors',
+    'prediction',
+    'chatbot',
 ]
 
 MIDDLEWARE = [
