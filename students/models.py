@@ -29,6 +29,15 @@ class Subject(models.Model):
     def __str__(self):
         return f"{self.course_code} - {self.semester} - Subject"
     
+class SemesterResult(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    semester = models.IntegerField()
+    sgpa = models.FloatField()
+    total_credits = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.semester} - {self.student.username}"
+    
 class StudentMark(models.Model):
     ASSESSMENT_CHOICES = [
         ('TH', 'Theory'),
@@ -37,7 +46,8 @@ class StudentMark(models.Model):
 
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    semester = models.IntegerField(default=1)
+    # semester = models.IntegerField(default=1)
+    semester = models.ForeignKey(SemesterResult, on_delete=models.CASCADE)
 
     assessment_type = models.CharField(
         max_length=2,
@@ -53,12 +63,3 @@ class StudentMark(models.Model):
 
     def __str__(self):
         return f"{self.subject.course_code} - {self.semester} - {self.assessment_type} - {self.student.username}"
-
-class SemesterResult(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    semester = models.IntegerField()
-    sgpa = models.FloatField()
-    total_credits = models.IntegerField()
-
-    def __str__(self):
-        return f"{self.semester} - {self.student.username}"
