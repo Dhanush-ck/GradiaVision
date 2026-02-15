@@ -10,8 +10,11 @@ from students.models import StudentMark
 from students.models import Subject
 from students.models import SemesterResult
 from accounts.models import UserProfile
+from prediction.models import PredictionData
+from prediction.models import Prediction
 
 from students.utils import extract_marklist_data_fyugp
+from prediction.predict import predict_score
 
 import math
 
@@ -118,54 +121,103 @@ def upload(request):
         pdf_file = request.FILES.get("pdf")
         extracted_data = extract_marklist_data_fyugp(pdf_file)
         if extracted_data['name'] != user.username.upper():
-            error = "Upload your marklist"
+            error = "Upload only your marklist"
             
             return render(request, 'students/upload.html', {
                 'error': error,
             })
         else:
-            for subject in extracted_data['subjects']:
-                if not Subject.objects.filter(course_code=subject['code']).exists():
-                    subject_obj = Subject.objects.create(
-                        course_code=subject['code'],
-                        name=subject['name'],
-                        semester=extracted_data['semester'],
-                        credits=subject['credit']
-                    )
-                else:
-                    subject_obj = Subject.objects.get(course_code=subject['code'])
-                StudentMark.objects.create(
+            if SemesterResult.objects.filter(student=user, semester=extracted_data['semester']).exists():
+                error = f"Semester {extracted_data['semester']} marklist already uploaded."
+                return render(request, 'students/upload.html', {
+                    'error': error,
+                })
+            else:
+                semester_obj = SemesterResult.objects.create(
                     student=user,
-                    subject=subject_obj,
                     semester=extracted_data['semester'],
-                    assessment_type='TH',
-                    cca_max=subject['TH']['max']['cca'],
-                    ese_max=subject['TH']['max']['ese'],
-                    cca_score=subject['TH']['awarded']['cca'],
-                    ese_score=subject['TH']['awarded']['ese'],
-                    total_max=subject['TH']['max']['cca']+subject['TH']['max']['ese'],
-                    total=subject['TH']['awarded']['cca']+subject['TH']['awarded']['ese'],
+                    sgpa=extracted_data['sgpa'],
+                    total_credits=extracted_data['total']['credit']
                 )
-                if 'PR' in subject:
+                for subject in extracted_data['subjects']:
+                    if not Subject.objects.filter(course_code=subject['code']).exists():
+                        subject_obj = Subject.objects.create(
+                            course_code=subject['code'],
+                            name=subject['name'],
+                            semester=extracted_data['semester'],
+                            credits=subject['credit']
+                        )
+                    else:
+                        subject_obj = Subject.objects.get(course_code=subject['code'])
                     StudentMark.objects.create(
                         student=user,
                         subject=subject_obj,
-                        semester=extracted_data['semester'],
-                        assessment_type='PR',
-                        cca_max=subject['PR']['max']['cca'],
-                        ese_max=subject['PR']['max']['ese'],
-                        cca_score=subject['PR']['awarded']['cca'],
-                        ese_score=subject['PR']['awarded']['ese'],
-                        total_max=subject['PR']['max']['cca']+subject['PR']['max']['ese'],
-                        total=subject['PR']['awarded']['cca']+subject['PR']['awarded']['ese'],
+                        semester=semester_obj,
+                        assessment_type='TH',
+                        cca_max=subject['TH']['max']['cca'],
+                        ese_max=subject['TH']['max']['ese'],
+                        cca_score=subject['TH']['awarded']['cca'],
+                        ese_score=subject['TH']['awarded']['ese'],
+                        total_max=subject['TH']['max']['cca']+subject['TH']['max']['ese'],
+                        total=subject['TH']['awarded']['cca']+subject['TH']['awarded']['ese'],
+                    )
+                    if 'PR' in subject:
+                        StudentMark.objects.create(
+                            student=user,
+                            subject=subject_obj,
+                            semester=semester_obj,
+                            assessment_type='PR',
+                            cca_max=subject['PR']['max']['cca'],
+                            ese_max=subject['PR']['max']['ese'],
+                            cca_score=subject['PR']['awarded']['cca'],
+                            ese_score=subject['PR']['awarded']['ese'],
+                            total_max=subject['PR']['max']['cca']+subject['PR']['max']['ese'],
+                            total=subject['PR']['awarded']['cca']+subject['PR']['awarded']['ese'],
+                        )
+
+                if extracted_data['semester'] != 1:
+                    student_mark_object = StudentMark.objects.filter(student=user)
+                    student_marks_percentage = []
+                    for i in student_mark_object:
+                        student_marks_percentage.append((i.total/i.total_max)*100)
+                    # print(student_marks_percentage)
+                    average_mark = round(sum(student_marks_percentage)/len(student_marks_percentage), 2)
+                    # print(average_mark)
+
+                    semester_result = SemesterResult.objects.filter(student=user)
+                    all_sgpa = []
+                    for sem in semester_result:
+                        all_sgpa.append(sem.sgpa)
+                    average_sgpa = round(sum(all_sgpa)/len(all_sgpa), 2)
+                    previous_sgpa = all_sgpa[-1]
+                    sgpa_trend = round(all_sgpa[-2] - all_sgpa[-1], 2)
+
+                    PredictionData.objects.create(
+                        student=user,
+                        prev_sgpa=previous_sgpa,
+                        avg_sgpa=average_sgpa,
+                        sgpa_trend=sgpa_trend,
+                        avg_marks=average_mark,
+                        avg_difficulty=5,
+                        avg_study_hours=5,
+                        planned_effort=5,
                     )
 
-            SemesterResult.objects.create(
-                student=user,
-                semester=extracted_data['semester'],
-                sgpa=extracted_data['sgpa'],
-                total_credits=extracted_data['total']['credit']
-            )
+                    predicted_score = predict_score(
+                        previous_sgpa,
+                        average_sgpa,
+                        sgpa_trend,
+                        average_mark,
+                        5,
+                        5,
+                        5,
+                        )
+                    Prediction.objects.create(
+                        student=user,
+                        predicted_sgpa=predicted_score,
+                    )
+
+
             success = "File Upload Successfull"
         return render(request, 'students/upload.html', {
             'success': success,
