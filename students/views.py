@@ -12,6 +12,7 @@ from students.models import SemesterResult
 from accounts.models import UserProfile
 from prediction.models import PredictionData
 from prediction.models import Prediction
+from tutors.models import AcademicRisk
 
 from students.utils import extract_marklist_data_fyugp
 from prediction.predict import predict_score
@@ -216,6 +217,14 @@ def upload(request):
                         student=user,
                         predicted_sgpa=predicted_score,
                     )
+
+                    if sgpa_trend < -5 or all_sgpa[-1] < 6.00:
+                        AcademicRisk.objects.create(
+                            student=user,
+                            sgpa_trend=sgpa_trend,
+                            sgpa=all_sgpa[-1],
+                            name=user.username,
+                        )
 
 
             success = "File Upload Successfull"
