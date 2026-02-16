@@ -63,3 +63,9 @@ class StudentMark(models.Model):
 
     def __str__(self):
         return f"{self.subject.course_code} - {self.semester} - {self.assessment_type} - {self.student.username}"
+
+class Notification(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    message = models.TextField()
+    time = models.DateTimeField(auto_now_add=True)
+    tutor_name = models.CharField(max_length=100)
