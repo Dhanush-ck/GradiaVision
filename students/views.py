@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from django.views.decorators.csrf import csrf_exempt
+
+import json
 
 from students.forms import StudentForm
 
@@ -236,4 +239,43 @@ def upload(request):
         'error': error,
     })
 
-     
+def preview(request):
+    user = request.user.userprofile.student
+    sem = SemesterResult.objects.filter(student=user)
+    current_sem = [i.semester for i in sem]
+    return render(request, 'students/preview.html', {
+        'current_sem': current_sem,
+    })
+
+@csrf_exempt
+def preview_manage(request):
+    user = request.user.userprofile.student
+
+    if request.method == "POST":
+        data = json.loads(request.body.decode("utf-8"))
+
+        current_semester = data.get("message")
+        semester = SemesterResult.objects.get(student=user, semester=current_semester)
+        semester_results = StudentMark.objects.filter(student=user, semester=semester)
+
+        subjects = {}
+
+        for index, val in enumerate(semester_results, start=1):
+            # print(i.subject.course_code, i.subject.name, i.assessment_type, i.cca_score, i.cca_max, i.ese_score, i.ese_max, i.total, i.total_max)
+            subjects[f"Subject{index}"] = {
+                'code': val.subject.course_code,
+                'name': val.subject.name,
+                'type': val.assessment_type,
+                'cca_score': val.cca_score,
+                'cca_max': val.cca_max,
+                'ese_score': val.ese_score,
+                'ese_max': val.ese_max,
+                'total': val.total,
+                'total_max': val.total_max,
+                'credits': val.subject.credits
+            }
+
+        return JsonResponse({
+            "reply": subjects,
+        })
+    return JsonResponse({"error": "Invalid request"})
