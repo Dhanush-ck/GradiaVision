@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview page</title>
+</head>
+<body>
+    <select id="semester">
+        {% for sem in current_sem %}
+        <option value={{sem}}>Semester {{sem}}</option>
+        {% endfor %}    
+    </select>
+
+    <div id="preview-area"></div>
+    <table>
+        <thead>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Credit</th>
+            <th>Type</th>
+            <th>CCA</th>
+            <th>CCA Total</th>
+            <th>ESE</th>
+            <th>ESE Total</th>
+            <th>Total</th>
+            <th>Total Max</th> 
+            <th>Grade</th> 
+        </thead>
+
+        <tbody id="table-body"></tbody>
+    </table>
+    <div id="sgpa"></div>
+
+    <script src="{% static 'students/js/preview.js' %}"></script>
+</body>
+</html>
