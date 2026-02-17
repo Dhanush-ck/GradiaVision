@@ -14,12 +14,10 @@ def chatbot(request):
 @csrf_exempt
 def reply(request):
     if request.method == "POST":
-        # data = json.loads(request.body)
         data = json.loads(request.body.decode("utf-8"))
 
         user_message = data.get("message")
 
-        # your intent logic here
         reply =generate_reply(user_message)
 
         return JsonResponse({
