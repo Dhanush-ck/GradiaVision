@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+    <link rel="stylesheet" href="{% static 'tutors/css/upload.css' %}">
+</head>
+<body>
+
+    <div class="container">
+
+        <form method="post" enctype="multipart/form-data" id="upload">
+            {% csrf_token %}
+    
+            <input type="file" name="pdf" id="file" accept="application/pdf" required hidden> 
+
+            <label for="file" class="file-upload">
+                <!-- <span>Choose file </span> -->
+                <img src="{% static 'img/upload.png' %}" alt="">
+                <span id="filename"></span>
+            </label>
+
+            <input type="number" placeholder="Regno column number" id="regno" name="regno">
+            <input type="number" placeholder="Final attendance column number" id="attendance" name="attendance">
+            <input type="number" placeholder="Semester" id="semester" name="semester">
+    
+            {% if success %}
+                <div class="error">
+                    {{success}}
+                </div>
+            {% endif %}
+    
+            {% if error %}
+                <div class="error"> 
+                    {{error}} 
+                </div>
+            {% endif %}
+        
+            <button type="submit" id="upload-btn">Upload</button>
+        </form>
+
+    </div>
+    
+    <script src="{% static 'tutors/js/upload.js' %}"></script>
+</body>
+</html>
