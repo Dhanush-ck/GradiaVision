@@ -69,3 +69,7 @@ class Notification(models.Model):
     message = models.TextField()
     time = models.DateTimeField(auto_now_add=True)
     tutor_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.student.username} - {self.time}"
+    
