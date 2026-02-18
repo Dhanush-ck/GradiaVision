@@ -11,4 +11,9 @@ admin.site.register(Student)
 admin.site.register(StudentMark)
 admin.site.register(Subject)
 admin.site.register(SemesterResult)
-admin.site.register(Notification)
+# admin.site.register(Notification)
+
+@admin.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ('student', 'message', 'time', 'tutor_name')
+    readonly_fields = ('time',)
