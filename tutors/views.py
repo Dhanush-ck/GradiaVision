@@ -6,6 +6,11 @@ from tutors.forms import TutorForm
 
 from accounts.models import UserProfile
 from tutors.models import Tutor
+from students.models import Student
+from students.models import Notification
+from tutors.models import AttendanceRisk
+
+from tutors.attendance_extraction_manager import extract_attendace_data
 
 # Create your views here.
 
@@ -65,3 +70,36 @@ def dashboard(request):
         'name': user.username, 
         'class_charge': user.class_charge,
     })
+
+def upload(request):
+
+    user = request.user.userprofile.tutor
+
+    if request.method == "POST":
+        pdf_file = request.FILES.get("pdf")
+        regno_count = int(request.POST.get('regno'))
+        attendance_count = int(request.POST.get('attendance'))
+        semester = int(request.POST.get('semester'))
+        extracted_data = extract_attendace_data(regno_count, attendance_count, pdf_file)
+
+        for data in extracted_data:
+            # print(data['regno'], data['attendance'])
+            if Student.objects.filter(regno=data['regno']).exists():
+                student = Student.objects.get(regno=data['regno'])
+                # print(student.username)
+                # print(semester)
+
+                Notification.objects.create(
+                    student=student,
+                    message=f"Your semester {semester} attendance is {data['attendance']}%",
+                    tutor_name=user.username
+                )
+
+                if data['attendance'] < 75:
+                    AttendanceRisk.objects.create(
+                        student=student,
+                        attendance=data['attendance']
+                    )
+
+        return render(request, 'tutors/upload.html')
+    return render(request, 'tutors/upload.html')
