@@ -18,3 +18,7 @@ class AcademicRisk(models.Model):
     sgpa_trend = models.FloatField()
     sgpa = models.FloatField()
     name = models.CharField(max_length=200)
+
+class AttendanceRisk(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    attendance = models.FloatField()
