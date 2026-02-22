@@ -10,6 +10,8 @@ class Tutor(models.Model):
     email = models.EmailField(max_length=254)
     class_charge = models.CharField(max_length=50)
 
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return f"{self.username} - {self.email} - Tutor"
     
@@ -19,6 +21,12 @@ class AcademicRisk(models.Model):
     sgpa = models.FloatField()
     name = models.CharField(max_length=200)
 
+    def __str__(self):
+        return f"{self.name}"
+
 class AttendanceRisk(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     attendance = models.FloatField()
+
+    def __str__(self):
+        return f"{self.student.username}"
