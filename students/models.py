@@ -1,6 +1,8 @@
 from django.db import models
 from accounts.models import UserProfile
 
+import math
+
 # Create your models here.
 
 class Student(models.Model):
@@ -11,10 +13,17 @@ class Student(models.Model):
     semester = models.IntegerField()
     department = models.CharField(max_length=200)
     course = models.CharField(max_length=200)
+    current_class = models.CharField(max_length=10, blank=True)
+
+    tutor_email = models.EmailField(max_length=255, default='teacher@gmail.com')
 
     toughness = models.JSONField(default=dict)
     study_hours = models.JSONField(default=dict)
     sleep_hours = models.JSONField(default=dict)
+
+    def save(self, *args, **kwargs):
+        self.current_class = self.course + str(math.ceil(self.semester/2))
+        super().save(*args, **kwargs)
 
     def __str__(self):
         # user = self.profile.user
