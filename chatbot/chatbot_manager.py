@@ -34,10 +34,10 @@ def generate_reply(msg):
         return "Maintain at least 75% attendance."
 
     elif intent == "stress_motivation":
-        return "stress"
+        return "Take a break and relax"
 
     elif intent == "target_percentage":
-        return "target percentage"
+        return "You need this 'score' to achieve the target"
 
     elif intent == "goodbye":
         return "Bye see ya again"
