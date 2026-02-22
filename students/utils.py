@@ -92,6 +92,9 @@ def extract_marklist_data_fyugp(pdf_path):
         lines = [l.strip() for l in text.split("\n") if l.strip()]
 
         for line in lines:
+            if 'UNIVERSITY' in line:
+                data['university'] = line.strip()
+                
             if "Name" in line and "Course" not in line:
                 data['name'] = line.split(":")[1].strip()
 
