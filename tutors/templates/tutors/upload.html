@@ -39,7 +39,11 @@
                 </div>
             {% endif %}
         
-            <button type="submit" id="upload-btn">Upload</button>
+            {% if success %}
+                <a href="{% url "tutor_dashboard" %}">Go to dashboard</a>
+            {% else %}
+                <button type="submit" id="upload-btn">Upload</button>
+            {% endif %}
         </form>
 
     </div>
