@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="{% static 'students/css/dashboard.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -21,21 +22,60 @@
             </a>
         </div>
 
-        <form method="post" enctype="multipart/form-data" id="form">
+        <div class="container-element">
+            <form method="post" enctype="multipart/form-data" id="form">
+        
+                {% csrf_token %}
     
-            {% csrf_token %}
-
-
-            Name: {{name}} <br>
-            Class: {{class}} <br>
+                Name: {{name}} <br>
+                Class: {{class}} <br>
+                
+                <button value={{semester}} hidden id="current-sem">Sem</button>
     
+            </form>
             <a href=" {% url 'upload' %} ">
                 Upload Marklist
             </a>
+            <br>
+            <a href=" {% url 'preview' %} ">Preview Page</a>
+            <br>
+            <a href=" {% url 'chatbot:chatbot_dashboard' %}">Chatbot</a>
+
+            <div id="notification">Notifications</div>
+
+            <div class="notification-panel">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Message</th>
+                            <th>Sender</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody id="table-body">
     
-        </form>
+                    </tbody>
+                </table>
+            </div>
+            <div id="graph-panel">
+                <select name="type" id="type">
+                    <option value="course">Course</option>
+                    <option value="sem">Semester</option>
+                </select>
+                <select name="semester" id="semester">
+                    <option value="1">Semester 1</option>
+                </select>
+                
+                <canvas id="graph">
+
+                </canvas>
+            </div>
+        </div>
 
 
+        <script src="{% static 'students/js/dashboard.js' %}"></script>
     </div>
     
 
