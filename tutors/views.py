@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from tutors.forms import TutorForm
 
@@ -9,6 +11,9 @@ from tutors.models import Tutor
 from students.models import Student
 from students.models import Notification
 from tutors.models import AttendanceRisk
+from tutors.models import AcademicRisk
+
+import json
 
 from tutors.attendance_extraction_manager import extract_attendace_data
 
@@ -103,3 +108,53 @@ def upload(request):
 
         return render(request, 'tutors/upload.html')
     return render(request, 'tutors/upload.html')
+
+@csrf_exempt
+def risk(request):
+    user = request.user.userprofile.tutor
+
+    data = json.loads(request.body.decode("utf-8"))
+
+    risk_type = data.get('message')
+
+    if risk_type == "attendance":
+        # print('attendance')
+        alert = AttendanceRisk.objects.filter(student__tutor_email=user.email)
+        alerts = []
+        for i in alert:
+            temp = {}
+            temp['attendance'] = i.attendance
+            temp['name'] = i.student.username
+            temp['regno'] = i.student.regno
+            alerts.append(temp)
+        
+        return JsonResponse({'attendance': alerts})
+
+
+    else:
+        # print('academic')
+        alert = AcademicRisk.objects.filter(student__tutor_email=user.email)
+        alerts = []
+        for i in alert:
+            temp = {}
+            temp['sgpa_trend'] = i.sgpa_trend
+            temp['sgpa'] = i.sgpa
+            temp['name'] = i.name
+            temp['regno'] = i.student.regno
+            alerts.append(temp)
+
+        return JsonResponse({'academic': alerts})
+
+@csrf_exempt    
+def update_class(request):
+    user = request.user.userprofile.tutor
+
+    data = json.loads(request.body.decode("utf-8"))
+
+    class_charge = data.get('message')
+    # print(class_charge)
+
+    Student.objects.filter(current_class=class_charge).update(tutor_email=user.email)
+    # students = Student.objects.all()
+
+    return JsonResponse({'message': 'Updated Success'})
