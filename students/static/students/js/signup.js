@@ -1,13 +1,13 @@
 const courses = {
     'Computer Science': {
         'BCA': 'BCA - Bachelor of Computer Application', 
-        'MSc CS': 'MSc Computer Science with Artificial Intelligence'
+        'MScCS': 'MSc Computer Science with Artificial Intelligence'
     },
     'Commerce': { 
         'BCom': 'BCom - Bachelor of Commerce'
     },
     'History': {
-        'BA History': 'BA History - Bachelor of Arts in History'
+        'BAHistory': 'BA History - Bachelor of Arts in History'
     }
 }
 
