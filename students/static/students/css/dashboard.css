@@ -42,7 +42,21 @@
     margin: 0 15px 0 0 ;
 }
 
-#form {
+.container-element {
     width: 100%;
     height: 100%;
+}
+
+table, th, td {
+    border: 2px solid black;
+    gap: 20px;
+}
+
+th, td {
+    padding: 10px;
+}
+
+#graph-panel {
+    width: 500px;
+    height: 300px;
 }
