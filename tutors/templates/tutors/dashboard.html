@@ -1,23 +1,80 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'tutors/css/dashboard.css' %}">
 </head>
 <body>
+    <div class="container">
+
+        <div class="topbar">
+            <span>
+                Dashboard
+            </span>
+            <a href=" {% url 'signout' %} ">
+                <img src="{% static 'img/logout.png' %}" alt="">
+            </a>
+        </div>
+
+        <div class="container-element">
+
+            <form method="post" id="form">
     
-    <form method="post">
+                This is Tutor Dashboard <br>
+                Name: {{name}} <br>
+                Class in charge: {{class_charge}} <br>
+ 
+            </form>
 
-        This is Tutor Dashboard <br>
-        Name: {{name}} <br>
-        Class in charge: {{class_charge}} <br>
+            <a href=" {% url 'attendance' %} ">
+                Upload Attendance
+            </a>
+            <br>
+            <select id="type" name="type">
+                <option value="attendance">Attendance</option>
+                <option value="academic">Academic</option>
+            </select>
+            <br>
+            <div id="risk">Risk Alerts</div>
+            <br>
+            <div id="alert-panel">
+                <table>
+                    <thead id="table-head">
 
-        <a href=" {% url 'signout' %} ">
-            Logout
-        </a>
+                    </thead>
+                    <tbody id="table-body">
 
-    </form>
+                    </tbody>
+                </table>
+            </div>
+            <div id="class-settings">
+                <select name="department" id="department">
+                    <option value="Commerce" >Department of Commerce</option>
+                    <option value="Computer Science" selected>Department of Computer Science</option>
+                    <option value="History">Department of History</option>
+                </select>
+        
+                Course:
+                <select name="course" id="course">
+    
+                </select>
+                <select name="year" id="year">
+                    <option value="1">Year 1</option>
+                    <option value="2">Year 2</option>
+                    <option value="3">Year 3</option>
+                </select>
+    
+                <button id="class-update">Update</button>
+            </div>
+        </div>
+    
+    </div>
+
+    <script src="{% static 'tutors/js/dashboard.js' %}"></script>
 
 </body>
 </html>
