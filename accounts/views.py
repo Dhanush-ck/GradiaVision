@@ -44,10 +44,10 @@ def signin(request):
                 print("Login successfull")
                 if user.userprofile.role == 'student':
                     print("Redirecting to student dashboard")
-                    return redirect('/student/dashboard')
+                    return redirect('student_dashboard')
                 else:
                     print("Redirecting to tutor dashboard")
-                    return redirect('/tutor/dashboard')
+                    return redirect('tutor_dashboard')
 
             if user_obj is  None:
                 error = "Invalid password or email"
