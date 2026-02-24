@@ -10,22 +10,50 @@ function sendMessage() {
     if(message.trim() === "") {
         return;
     }
-    chatArea.innerHTML += `<div class='user'>${message}</div>`;
+    if(message.trim() == "/") {
+        appendMessage(message.trim(), 'user');
+        const msg = document.createElement('div');
+        msg.classList.add('bot');
+
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        bubble.classList.add('help');
+        bubble.innerHTML = "<b>/</b> - for action list <br> <b>/sgpa</b> - gives your sgpa <br>";
+
+        msg.appendChild(bubble);
+        document.getElementById('chat-area').appendChild(msg);
+        document.querySelector('.chat-area-holder').scrollTop = 999999;
+        userInput.value = "";
+        return;
+    }
+    appendMessage(message.trim(), 'user');
 
     fetch("/chatbot/reply/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: message })
+        body: JSON.stringify({ message: message.trim() })
     })
     .then(response => response.json())
     .then(data => {
-        chatArea.innerHTML += `<div class="bot">${data.reply}</div>`;
-        // chatArea.scrollTop = chatArea.scrollHeight;
+        appendMessage(data.reply, 'bot');
     });
 
     userInput.value = "";
+}
+
+function appendMessage(text, role) {
+  const msg = document.createElement('div');
+  msg.classList.add(role);
+
+  const bubble = document.createElement('div');
+  bubble.classList.add('bubble');
+  bubble.textContent = text;
+
+  msg.appendChild(bubble);
+  document.getElementById('chat-area').appendChild(msg);
+  document.querySelector('.chat-area-holder').scrollTop = 999999;
 }
 
 function getCookie(name) {
