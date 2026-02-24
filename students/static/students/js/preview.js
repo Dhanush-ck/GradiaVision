@@ -87,12 +87,10 @@ tbody.addEventListener("input", e=>{
         return;
     }
 
-    // update JSON
     subjects[i].cca_score = cca;
     subjects[i].ese_score = ese;
     subjects[i].total = cca + ese;
 
-    // update row total
     row.querySelector(".total").innerText = subjects[i].total;
 
     calculateAll();
@@ -142,14 +140,12 @@ function calculateAll(){
 
     });
 
-    // grade per subject code
     Object.keys(grouped).forEach(code=>{
 
     const s = grouped[code];
     const percent = (s.total/s.total_max)*100;
     s.grade = getGrade(percent);
 
-    // show grade only in TH row
     document.querySelectorAll("#table-body tr").forEach(r=>{
         // console.log(r.children[3].innerText)
     if(r.children[0]?.innerText===code && r.children[3].innerText==="TH"){
@@ -172,7 +168,7 @@ function calculateSGPA(grouped){
     credits += s.credits;
     });
 
-    document.getElementById("sgpa").innerText = (sum/credits || 0).toFixed(2);
+    document.getElementById("sgpa-value").innerText = (sum/credits || 0).toFixed(2);
 }
 
 
