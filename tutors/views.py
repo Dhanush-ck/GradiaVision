@@ -10,6 +10,7 @@ from accounts.models import UserProfile
 from tutors.models import Tutor
 from students.models import Student
 from students.models import Notification
+from students.models import SemesterResult
 from tutors.models import AttendanceRisk
 from tutors.models import AcademicRisk
 
@@ -106,7 +107,9 @@ def upload(request):
                         attendance=data['attendance']
                     )
 
-        return render(request, 'tutors/upload.html')
+        return render(request, 'tutors/upload.html', {
+            'success': 'Upload done',
+        })
     return render(request, 'tutors/upload.html')
 
 @csrf_exempt
@@ -133,7 +136,7 @@ def risk(request):
 
     else:
         # print('academic')
-        alert = AcademicRisk.objects.filter(student__tutor_email=user.email)
+        alert = AcademicRisk.objects.filter(student__tutor_email=user.email).order_by('sgpa_trend')
         alerts = []
         for i in alert:
             temp = {}
@@ -158,3 +161,53 @@ def update_class(request):
     # students = Student.objects.all()
 
     return JsonResponse({'message': 'Updated Success'})
+
+@csrf_exempt 
+def tutor_graph(request):
+
+    user = request.user.userprofile.tutor
+
+    grades_count = {
+        'O': 0,
+        'A+': 0,
+        'A': 0,
+        'B+': 0,
+        'B': 0,
+        'C': 0,
+        'P': 0,
+        'F': 0,
+    }
+
+    students = Student.objects.filter(current_class=user.class_charge)
+
+    for student in students:
+        sgpas = []
+        semesters = SemesterResult.objects.filter(student__current_class=student.current_class)
+        for semester in semesters:
+            sgpas.append(semester.sgpa)
+        sgpa = sum(sgpas)/len(sgpas)
+
+        if sgpa >= 9.5:
+            grades_count['O'] += 1
+        elif sgpa >= 8.5:
+            grades_count['A+'] += 1
+        elif sgpa >= 7.5:
+            grades_count['A'] += 1
+        elif sgpa >= 6.5:
+            grades_count['B+'] += 1
+        elif sgpa >= 5.5:
+            grades_count['B'] += 1
+        elif sgpa >= 4.5:
+            grades_count['C'] += 1
+        elif sgpa >= 3.5:
+            grades_count['P'] += 1
+        else:
+            grades_count['F'] += 1
+
+    print(list(grades_count.values()))            
+    print(list(grades_count.keys()))            
+
+    return JsonResponse({
+        'count': list(grades_count.values()),
+        'grades': list(grades_count.keys()),
+    })
