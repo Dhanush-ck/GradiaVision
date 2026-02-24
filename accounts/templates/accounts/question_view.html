@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Question</title>
-    <link rel="stylesheet" href="{% static 'accounts/css/signin.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/css/question_view.css' %}">
 </head>
 <body>
     
@@ -14,8 +14,11 @@
 
         {% csrf_token %}
 
-        Question: {{question}} <br>
-        Answer: <input type="text" placeholder="Enter the answer" id="answer" name="answer"> <br>
+        Question: 
+        <p>
+            {{question}}
+        </p>
+        Answer: <input type="text" placeholder="Enter the answer" id="answer" name="answer">
 
         {% if error %}
             <div class="errors"> {{error}} </div>
