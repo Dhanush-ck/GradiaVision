@@ -10,12 +10,14 @@
     <link rel="stylesheet" href="{% static "chatbot/css/chatbot.css" %}">
 </head>
 <body>
+    <div class="chat-header">
+        <a href="{% url 'student_dashboard' %}" class="back-btn">← Dashboard</a>
+        <h1 class="chat-title">🤖 Mentor Bot <span>Ask me anything</span></h1>
+    </div>
     <div class="container">
         <div class="container-element">
             <div class="chat-area-holder">
-                <div id="chat-area">
-                    
-                </div>
+                <div id="chat-area"></div>
             </div>
             <div class="input-area">
                 <input type="text" id="user-input">
