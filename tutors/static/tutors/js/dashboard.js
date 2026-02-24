@@ -21,6 +21,9 @@ var courseDropdown = document.getElementById('course');
 var year = document.getElementById('year');
 const classUpdate = document.getElementById('class-update');
 
+const graph = document.getElementById('graph').getContext('2d');
+let graphChart = null;
+
 alertBtn.addEventListener('click', ()=>{
     getAlerts(type.value);
 });
@@ -66,16 +69,28 @@ function getAlerts(alertType) {
                     <th>Name</th>
                     <th>SGPA</th>
                     <th>SGPA Trend</th>
+                    <th>Risk</th>
                 </tr>
             `;
             tableBody.innerHTML = "";
             data.academic.forEach(e=> {
+                let temp;
+                if(e.sgpa_trend <= -1.0) {
+                    temp = `<td class=risk-high>High Risk</td>`;
+                }
+                else if(e.sgpa_trend <= -0.7) {
+                    temp = `<td class=risk-medium>Medium Risk</td>`;
+                }
+                else {
+                    temp = `<td class=risk-low>Low Risk</td>`;
+                }
                 tableBody.innerHTML += `
                     <tr>
                         <td>${e.regno}</td>
                         <td>${e.name}</td>
                         <td>${e.sgpa}</td>
-                        <td>${e.sgpa_trend}</td>
+                        <td>${e.sgpa_trend*10}%</td>
+                        ${temp}
                     </tr>
                 `;
             })
@@ -116,3 +131,52 @@ function updateClass() {
         alert(data.message);
     })
 }
+
+function setGraph(){
+
+    fetch("/tutor/graph/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        // body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // console.log(data.count)
+        // console.log(data.grades)
+        if(graphChart) {
+            graphChart.destroy();
+        }
+        graphChart = new Chart(graph, {
+            type: 'bar',
+            data: {
+                labels: data.grades,
+                datasets: [{
+                    label: 'Count',
+                    data: data.count,
+                    borderWidth: 2,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 10,
+                            },
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                    }
+                }
+            }
+        });
+    });
+}
+
+setGraph();
