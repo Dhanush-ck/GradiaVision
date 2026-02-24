@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="{% static 'tutors/css/dashboard.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
@@ -16,31 +17,26 @@
                 Dashboard
             </span>
             <a href=" {% url 'signout' %} ">
-                <img src="{% static 'img/logout.png' %}" alt="">
+                <img src="{% static 'img/logout-black.png' %}" alt="">
             </a>
         </div>
 
         <div class="container-element">
 
             <form method="post" id="form">
-    
-                This is Tutor Dashboard <br>
-                Name: {{name}} <br>
-                Class in charge: {{class_charge}} <br>
- 
+                {% csrf_token %}
+                <span>Name: <strong>{{ name }}</strong></span>
+                <span>Class in charge: <strong>{{ class_charge }}</strong></span>
             </form>
 
             <a href=" {% url 'attendance' %} ">
                 Upload Attendance
             </a>
-            <br>
             <select id="type" name="type">
                 <option value="attendance">Attendance</option>
                 <option value="academic">Academic</option>
             </select>
-            <br>
             <div id="risk">Risk Alerts</div>
-            <br>
             <div id="alert-panel">
                 <table>
                     <thead id="table-head">
@@ -51,6 +47,14 @@
                     </tbody>
                 </table>
             </div>
+            <div id="graph-section">
+                <div class="graph-header">
+                    <span id="graph-title">📊 Class Performance</span>
+                </div>
+                <div class="graph-wrapper">
+                    <canvas id="graph"></canvas>
+                </div>
+            </div>
             <div id="class-settings">
                 <select name="department" id="department">
                     <option value="Commerce" >Department of Commerce</option>
@@ -58,7 +62,7 @@
                     <option value="History">Department of History</option>
                 </select>
         
-                Course:
+                <span>Course:</span>
                 <select name="course" id="course">
     
                 </select>
@@ -70,6 +74,7 @@
     
                 <button id="class-update">Update</button>
             </div>
+            
         </div>
     
     </div>
