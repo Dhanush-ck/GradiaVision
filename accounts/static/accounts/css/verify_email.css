@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+}
+
+:root{
+--primary:#7A1CAC;
+--light:#EBD3F8;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+min-height:100vh;
+font-family:Poppins,sans-serif;
+background:linear-gradient(135deg,#EBD3F8,#f7ecff);
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+/* FORM CARD */
+
+form{
+width:100%;
+max-width:380px;
+background:rgba(255,255,255,.35);
+backdrop-filter:blur(15px);
+padding:40px 35px;
+border-radius:25px;
+box-shadow:0 30px 60px rgba(0,0,0,.1);
+text-align:center;
+}
+
+/* LABEL */
+
+form{
+color:#444;
+font-size:14px;
+}
+
+/* INPUT */
+
+input{
+width:100%;
+margin-top:10px;
+padding:12px 14px;
+border-radius:10px;
+border:1px solid #ddd;
+font-size:14px;
+}
+
+input:focus{
+outline:none;
+border-color:var(--primary);
+box-shadow:0 0 0 3px rgba(122,28,172,.15);
+}
+
+/* ERRORS */
+
+.errors{
+color:crimson;
+font-size:12px;
+margin-top:8px;
+}
+
+/* BUTTON */
+
+#submit-button{
+width:100%;
+margin-top:25px;
+padding:13px;
+border:none;
+border-radius:30px;
+background:var(--primary);
+color:white;
+font-size:15px;
+cursor:pointer;
+transition:.3s;
+}
+
+#submit-button:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 25px rgba(122,28,172,.4);
+}
+
+/* MOBILE */
+
+@media(max-width:480px){
+
+form{
+margin:20px;
+padding:30px 22px;
+}
+
+}
