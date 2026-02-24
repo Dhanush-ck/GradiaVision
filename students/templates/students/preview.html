@@ -6,8 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Preview page</title>
+    <link rel="stylesheet" href="{% static 'students/css/preview.css' %}">
 </head>
 <body>
+    <div class="page-header">
+        <a href="{% url 'student_dashboard' %}" class="back-btn">← Back to Dashboard</a>
+        <h1 class="page-title">📄 Preview Results</h1>
+    </div>
     <select id="semester">
         {% for sem in current_sem %}
         <option value={{sem}}>Semester {{sem}}</option>
@@ -17,22 +22,27 @@
     <div id="preview-area"></div>
     <table>
         <thead>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Credit</th>
-            <th>Type</th>
-            <th>CCA</th>
-            <th>CCA Total</th>
-            <th>ESE</th>
-            <th>ESE Total</th>
-            <th>Total</th>
-            <th>Total Max</th> 
-            <th>Grade</th> 
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Credit</th>
+                <th>Type</th>
+                <th>CCA</th>
+                <th>CCA Total</th>
+                <th>ESE</th>
+                <th>ESE Total</th>
+                <th>Total</th>
+                <th>Total Max</th> 
+                <th>Grade</th> 
+            </tr>
         </thead>
 
         <tbody id="table-body"></tbody>
     </table>
-    <div id="sgpa"></div>
+    <div id="sgpa">
+        <span>SGPA</span>
+        <strong id="sgpa-value">8.5</strong>
+    </div>
 
     <script src="{% static 'students/js/preview.js' %}"></script>
 </body>
