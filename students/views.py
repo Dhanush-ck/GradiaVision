@@ -146,15 +146,20 @@ def upload(request):
             return render(request, 'students/upload.html', {
                 'error': error,
             })
-        if extracted_data['name'] != 'KANNUR UNIVERSITY':
+        
+        if extracted_data['university'] != 'KANNUR UNIVERSITY':
             error = "Upload only your marklist"
             
             return render(request, 'students/upload.html', {
                 'error': error,
             })
 
-        if extracted_data['programme'] != user.course:
-            error = "Upload only your marklist"
+        course = extracted_data['programme']
+        print(course)
+        if 'Bachelor of Computer Application' in extracted_data['programme']:
+            course = 'BCA'
+        if course != user.course:
+            error = "Upload only your marklist course"
             
             return render(request, 'students/upload.html', {
                 'error': error,
@@ -378,7 +383,7 @@ def graph_manage(request):
             'percentages': subject_percentages,
         })
     else:
-        results = SemesterResult.objects.filter(student=user)
+        results = SemesterResult.objects.filter(student=user).order_by('semester')
         semesters = []
         scores = []
         for result in results:
