@@ -10,6 +10,11 @@
 </head>
 <body>
 
+    <div class="page-header">
+        <a href="{% url 'tutor_dashboard' %}" class="back-btn">← Dashboard</a>
+        <h1 class="page-title">📤 Upload Attendance</h1>
+    </div>
+
     <div class="container">
 
         <form method="post" enctype="multipart/form-data" id="upload">
@@ -18,30 +23,39 @@
             <input type="file" name="pdf" id="file" accept="application/pdf" required hidden> 
 
             <label for="file" class="file-upload">
-                <!-- <span>Choose file </span> -->
                 <img src="{% static 'img/upload.png' %}" alt="">
+                <span class="upload-hint">Click to browse or drag & drop</span>
+                <span class="upload-sub">PDF files only</span>
                 <span id="filename"></span>
             </label>
 
-            <input type="number" placeholder="Regno column number" id="regno" name="regno">
-            <input type="number" placeholder="Final attendance column number" id="attendance" name="attendance">
-            <input type="number" placeholder="Semester" id="semester" name="semester">
+            <div class="divider">Column Info</div>
+
+            <div class="input-group">
+                <label for="regno">Regno Column Number</label>
+                <input type="number" placeholder="e.g. 1" id="regno" name="regno">
+            </div>
+
+            <div class="input-group">
+                <label for="attendance">Final Attendance Column Number</label>
+                <input type="number" placeholder="e.g. 5" id="attendance" name="attendance">
+            </div>
+
+            <div class="input-group">
+                <label for="semester">Semester</label>
+                <input type="number" placeholder="e.g. 3" id="semester" name="semester">
+            </div>
     
             {% if success %}
-                <div class="error">
-                    {{success}}
-                </div>
+                <div class="success-msg">{{ success }}</div>
+                <a href="{% url 'tutor_dashboard' %}" class="dashboard-link">Go to dashboard</a>
             {% endif %}
     
             {% if error %}
-                <div class="error"> 
-                    {{error}} 
-                </div>
+                <div class="error">{{ error }}</div>
             {% endif %}
-        
-            {% if success %}
-                <a href="{% url "tutor_dashboard" %}">Go to dashboard</a>
-            {% else %}
+
+            {% if not success %}
                 <button type="submit" id="upload-btn">Upload</button>
             {% endif %}
         </form>
