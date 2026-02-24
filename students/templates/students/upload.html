@@ -18,21 +18,18 @@
             <input type="file" name="pdf" id="file" accept="application/pdf" required hidden> 
 
             <label for="file" class="file-upload">
-                <!-- <span>Choose file </span> -->
                 <img src="{% static 'img/upload.png' %}" alt="">
+                <span class="upload-hint">Click to browse or drag & drop</span>
+                <!-- <span class="upload-sub">PDF files only</span> -->
                 <span id="filename"></span>
             </label>
     
             {% if success %}
-                <div class="error">
-                    {{success}}
-                </div>
+                <div class="success-msg">{{ success }}</div>
             {% endif %}
-    
+
             {% if error %}
-                <div class="error"> 
-                    {{error}} 
-                </div>
+                <div class="error">{{ error }}</div>
             {% endif %}
         
             {% if success %}
