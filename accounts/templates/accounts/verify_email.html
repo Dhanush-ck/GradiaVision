@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email for Reset</title>
-    <link rel="stylesheet" href="{% static 'accounts/css/signin.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/css/verify_email.css' %}">
 </head>
 <body>
     
@@ -14,7 +14,7 @@
 
         {% csrf_token %}
 
-        Email: {{form.email}}
+        Email {{form.email}}
 
         <div id="email-error" class="errors"></div>
 
