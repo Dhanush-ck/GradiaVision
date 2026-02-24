@@ -1,5 +1,3 @@
-
-const notificationButton = document.getElementById('notification');
 const tableBody = document.getElementById('table-body');
 const currentSem = document.getElementById('current-sem')
 const type = document.getElementById('type');
@@ -7,9 +5,8 @@ const semester = document.getElementById('semester');
 
 const graph = document.getElementById('graph').getContext('2d');
 
-notificationButton.addEventListener('click', getNotification);
-
 var notifications;
+getNotification();
 
 function getNotification() {
     fetch("/student/notification/", {
@@ -188,3 +185,15 @@ function setGraph() {
 }
 
 setGraph();
+
+const toggle = document.getElementById('menu-toggle');
+const sidebar = document.querySelector('.sidebar');
+const overlay = document.getElementById('sidebar-overlay');
+toggle?.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('active');
+});
+overlay?.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('active');
+});
