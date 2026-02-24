@@ -19,9 +19,15 @@
         <div class="container-element">
             <form method="post" >
                 {% csrf_token %}
-        
-                Student<input type="radio" name="role" value="student" checked>
-                Tutor<input type="radio" name="role" value="tutor"> <br>
+                
+                <label>
+                    <input type="radio" name="role" value="student" checked>
+                    Student
+                </label>
+                <label>
+                    <input type="radio" name="role" value="tutor">
+                    Tutor
+                </label>
                 <!-- Admin<input type="radio" name="role" value="admin"> <br> -->
                  
                 <button type="submit" id="submit-button">Submit</button>
