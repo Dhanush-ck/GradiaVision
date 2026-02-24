@@ -272,7 +272,7 @@ def upload(request):
                         predicted_sgpa=predicted_score,
                     )
 
-                if sgpa_trend < -5 or all_sgpa[-1] < 6.00:
+                if sgpa_trend < -0.5 or all_sgpa[-1] < 6.00:
                     AcademicRisk.objects.create(
                         student=user,
                         sgpa_trend=sgpa_trend,
