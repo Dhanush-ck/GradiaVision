@@ -10,71 +10,77 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-    <div class="container">
+    <div class="dashboard">
+        <button value={{semester}} hidden id="current-sem">Sem</button>
 
-        <div class="topbar">
-            <span>
-                Dashboard
-            </span>
-            <a href=" {% url 'signout' %} ">
-                <img src="{% static 'img/logout.png' %}" alt="">
-            </a>
-        </div>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2 class="logo">Gradia Vision</h2>
 
-        <div class="container-element">
-            <form method="post" enctype="multipart/form-data" id="form">
-        
-                {% csrf_token %}
-    
-                Name: {{name}} <br>
-                Class: {{class}} <br>
-                
-                <button value={{semester}} hidden id="current-sem">Sem</button>
-    
-            </form>
-            <a href=" {% url 'upload' %} ">
-                Upload Marklist
-            </a>
-            <br>
-            <a href=" {% url 'preview' %} ">Preview Page</a>
-            <br>
-            <a href=" {% url 'chatbot:chatbot_dashboard' %}">Chatbot</a>
+            <nav>
+                <a href="#" class="nav-link active">🏠 Dashboard</a>
+                <a href="{% url 'upload' %} " class="nav-link">📤 Upload Marklist</a>
+                <a href="{% url 'preview' %} " class="nav-link">📄 Preview Results</a>
+                <a href="{% url 'chatbot:chatbot_dashboard' %}" class="nav-link">🤖 Mentor Bot</a>
+            </nav>
 
-            <div id="notification">Notifications</div>
+            <a href="{% url 'signout' %}" class="logout">🚪 Logout</a>
+        </aside>
 
-            <div class="notification-panel">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Message</th>
-                            <th>Sender</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                        </tr>
-                    </thead>
-                    
-                    <tbody id="table-body">
-    
-                    </tbody>
-                </table>
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Topbar -->
+            <div class="topbar">
+                <span class="menu-toggle" id="menu-toggle">☰</span>
+                <div>
+                    <h3>Welcome, {{ name }}</h3>
+                    <p>Class: {{ class }}</p>
+                </div>
             </div>
-            <div id="graph-panel">
-                <select name="type" id="type">
-                    <option value="course">Course</option>
-                    <option value="sem">Semester</option>
-                </select>
-                <select name="semester" id="semester">
-                    <option value="1">Semester 1</option>
-                </select>
-                
-                <canvas id="graph">
 
-                </canvas>
-            </div>
-        </div>
+            <!-- Notifications -->
+            <section class="card">
+                <h3>🔔 Notifications</h3>
 
+                <div class="notification-panel">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Message</th>
+                                <th>Sender</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+            </section>
 
+            <!-- Graph Section -->
+            <section class="card">
+                <h3>📊 Performance Overview</h3>
+
+                <div class="filters">
+                    <select id="type">
+                        <option value="course">Course</option>
+                        <option value="sem">Semester</option>
+                    </select>
+
+                    <select id="semester">
+
+                    </select>
+                </div>
+
+                <div class="graph-wrapper">
+                    <canvas id="graph"></canvas>
+                </div>
+            </section>
+
+        </main>
         <script src="{% static 'students/js/dashboard.js' %}"></script>
     </div>
     
