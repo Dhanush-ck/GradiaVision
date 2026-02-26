@@ -16,6 +16,12 @@ const riskType = document.getElementById('type');
 const tableHead = document.getElementById('table-head');
 const tableBody = document.getElementById('table-body');
 
+const modal = document.getElementById('notif-modal');
+const notifBtn = document.getElementById('notif-btn');
+const closeBtn = document.getElementById('modal-close');
+const submitBtn = document.getElementById('notif-submit');
+const notifInput = document.getElementById('notif-input');
+
 var departmentDropdown = document.getElementById('department');
 var courseDropdown = document.getElementById('course');
 var year = document.getElementById('year');
@@ -180,3 +186,52 @@ function setGraph(){
 }
 
 setGraph();
+
+notifBtn.addEventListener('click', () => {
+  modal.classList.add('active');
+  notifInput.focus();
+});
+
+closeBtn.addEventListener('click', () => {
+  modal.classList.remove('active');
+  notifInput.value = '';
+});
+
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.classList.remove('active');
+    notifInput.value = '';
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    modal.classList.remove('active');
+    notifInput.value = '';
+  }
+});
+
+submitBtn.addEventListener('click', () => {
+  const message = notifInput.value.trim();
+  if (!message) {
+    notifInput.focus();
+    return;
+  }
+
+  console.log('Notification:', message);
+
+  fetch("/tutor/notification/add/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({message: message})
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+    })
+
+  modal.classList.remove('active');
+  notifInput.value = '';
+});
