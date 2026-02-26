@@ -8,4 +8,5 @@ urlpatterns = [
     path('risk/', views.risk, name='risk'),
     path('update/class/', views.update_class, name='update-class'),
     path('graph/', views.tutor_graph, name='tuor_graph'),
+    path('notification/add/', views.add_notification, name="add_notification"),
 ]
