@@ -247,8 +247,8 @@ def upload(request):
                     prediction_data.sgpa_trend = sgpa_trend
                     prediction_data.avg_marks = average_mark
                     prediction_data.avg_difficulty = 3
-                    prediction_data.avg_study_hours = 3
-                    prediction_data.planned_effort = 5
+                    prediction_data.avg_study_hours = 2
+                    prediction_data.planned_effort = 2.5
                     prediction_data.save()
 
                     prediction = Prediction.objects.get(student=user)
@@ -263,8 +263,8 @@ def upload(request):
                         sgpa_trend=sgpa_trend,
                         avg_marks=average_mark,
                         avg_difficulty=3,
-                        avg_study_hours=3,
-                        planned_effort=5,
+                        avg_study_hours=2,
+                        planned_effort=2.5,
                     )
 
                     Prediction.objects.create(
@@ -391,7 +391,7 @@ def graph_manage(request):
             scores.append(result.sgpa)
         if Prediction.objects.filter(student=user).exists():
             prediction = Prediction.objects.get(student=user)
-            semesters.append(f"Semester {len(results)+1}")
+            semesters.append(f"Semester {len(results)+1} (Predicted)")
             scores.append(prediction.predicted_sgpa)
         return JsonResponse({
             'semesters': semesters,
