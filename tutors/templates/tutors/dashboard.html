@@ -29,9 +29,22 @@
                 <span>Class in charge: <strong>{{ class_charge }}</strong></span>
             </form>
 
-            <a href=" {% url 'attendance' %} ">
-                Upload Attendance
-            </a>
+            <div class="action-row">
+                <a href=" {% url 'attendance' %} ">Upload Attendance</a>
+                <button id="notif-btn">🔔 Add Notification</button>
+            </div>
+
+            <div id="notif-modal" class="modal-overlay">
+                <div class="modal">
+                    <div class="modal-header">
+                        <h3>New Notification</h3>
+                        <button id="modal-close" class="modal-close">✕</button>
+                    </div>
+                    <textarea id="notif-input" placeholder="Write your notification message..."></textarea>
+                    <button id="notif-submit">Send</button>
+                </div>
+            </div>
+
             <select id="type" name="type">
                 <option value="attendance">Attendance</option>
                 <option value="academic">Academic</option>
