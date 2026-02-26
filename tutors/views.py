@@ -158,6 +158,8 @@ def update_class(request):
     # print(class_charge)
 
     Student.objects.filter(current_class=class_charge).update(tutor_email=user.email)
+    user.class_charge = class_charge
+    user.save()
     # students = Student.objects.all()
 
     return JsonResponse({'message': 'Updated Success'})
@@ -211,3 +213,22 @@ def tutor_graph(request):
         'count': list(grades_count.values()),
         'grades': list(grades_count.keys()),
     })
+
+@csrf_exempt
+def add_notification(request):
+    user = request.user.userprofile.tutor
+
+    data = json.loads(request.body.decode("utf-8"))
+
+    message = data.get('message')
+
+    students = Student.objects.filter(current_class=user.class_charge)
+
+    for student in students:
+        Notification.objects.create(
+            student=student,
+            message=message,
+            tutor_name=user.username,
+        )
+
+    return JsonResponse({'message': 'Notification added successfully'})
