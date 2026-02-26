@@ -18,7 +18,11 @@ function sendMessage() {
         const bubble = document.createElement('div');
         bubble.classList.add('bubble');
         bubble.classList.add('help');
-        bubble.innerHTML = "<b>/</b> - for action list <br> <b>/sgpa</b> - gives your sgpa <br>";
+        bubble.innerHTML = `
+            <b>/</b> - for action list <br> 
+            <b>/sgpa</b> - gives your sgpa <br>
+            <b>/change</b> - to change the prediction data
+            `;
 
         msg.appendChild(bubble);
         document.getElementById('chat-area').appendChild(msg);
@@ -37,19 +41,31 @@ function sendMessage() {
     })
     .then(response => response.json())
     .then(data => {
-        appendMessage(data.reply, 'bot');
+        // console.log(data.reply);
+        if(data.help == 'help') {
+            appendMessage(data.reply, 'bot', 'help');
+        }
+        else {
+            appendMessage(data.reply, 'bot', ' ');
+        }
     });
 
     userInput.value = "";
 }
 
-function appendMessage(text, role) {
+function appendMessage(text, role, type) {
   const msg = document.createElement('div');
   msg.classList.add(role);
 
   const bubble = document.createElement('div');
   bubble.classList.add('bubble');
-  bubble.textContent = text;
+  if(type == 'help') {
+    bubble.classList.add('help');
+    bubble.innerHTML = text;
+  }
+  else {
+    bubble.textContent = text;
+  }
 
   msg.appendChild(bubble);
   document.getElementById('chat-area').appendChild(msg);
