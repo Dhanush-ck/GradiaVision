@@ -14,6 +14,21 @@ def generate_reply(msg):
 
     if msg.lower() == '/sgpa':
         return 'sgpa'
+    
+    if msg.lower().startswith("/change"):
+        parts = msg.lower().split()
+
+        if len(parts) != 4:
+            return 'change'
+
+        toughness = float(parts[1])
+        study_hours = float(parts[2])
+        planned_effort = float(parts[3])
+
+        return {
+            'type': 'change', 
+            'values': [toughness, study_hours, planned_effort],
+            }
 
     vec = vectorizer.transform([msg])
     intent = model.predict(vec)[0]
@@ -79,11 +94,16 @@ def generate_reply(msg):
     elif intent == "target_percentage":
 
         percentage = re.search(r'\b(100|[1-9]?\d)\s*(%|percent|percentage)?\b', msg.lower())
+        if 'sgpa' in msg.lower() or percentage <= 10:
+            percentage *= 10
         if percentage:
             target_percentage = int(percentage.group(1))
 
         # return f"You need this {target_percentage} to achieve the target"
-        return {'percentage': target_percentage}
+        return {
+            'type': 'percentage',
+            'percentage': target_percentage
+            }
 
     elif intent == "goodbye":
         replies = [
