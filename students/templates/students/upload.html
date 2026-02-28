@@ -10,6 +10,11 @@
 </head>
 <body>
 
+    <div class="page-header">
+        <a href="{% url 'student_dashboard' %}" class="back-btn">← Dashboard</a>
+        <h1 class="page-title">📤 Upload Marklist</h1>
+    </div>
+
     <div class="container">
 
         <form method="post" enctype="multipart/form-data" id="upload">
@@ -32,9 +37,7 @@
                 <div class="error">{{ error }}</div>
             {% endif %}
         
-            {% if success %}
-                <a href="{% url "student_dashboard" %}">Go to dashboard</a>
-            {% else %}
+            {% if not success %}
                 <button type="submit" id="upload-btn">Upload</button>
             {% endif %}
         </form>
