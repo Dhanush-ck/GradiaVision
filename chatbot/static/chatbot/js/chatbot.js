@@ -1,12 +1,16 @@
 const submitBtn = document.getElementById('submit-btn');
 const userInput = document.getElementById('user-input');
+userInput.focus();
 
 let chatArea = document.getElementById('chat-area');
+
+const welcomeScreen = document.getElementById('welcome-screen');
 
 let error;
 
 function sendMessage() {
     const message = userInput.value;
+    hideWelcome();
     if(message.trim() === "") {
         return;
     }
@@ -18,10 +22,23 @@ function sendMessage() {
         const bubble = document.createElement('div');
         bubble.classList.add('bubble');
         bubble.classList.add('help');
+
         bubble.innerHTML = `
-            <b>/</b> - for action list <br> 
-            <b>/sgpa</b> - gives your sgpa <br>
-            <b>/change</b> - to change the prediction data
+            <p class="commands-label">Here's what I can help you with 👇</p>
+            <div class="command-list">
+            <div class="command-chip" data-cmd="/cgpa">
+                <span class="cmd-name">/cgpa</span>
+                <span class="cmd-desc">See your current CGPA 📊</span>
+            </div>
+            <div class="command-chip" data-cmd="/predict">
+                <span class="cmd-name">/predict</span>
+                <span class="cmd-desc">Update your semester study details and get your next semester performance estimate 🔮</span>
+            </div>
+            <div class="command-chip" data-cmd="/">
+                <span class="cmd-name">/</span>
+                <span class="cmd-desc">Show these details again</span>
+            </div>
+            </div>
             `;
 
         msg.appendChild(bubble);
@@ -88,3 +105,34 @@ function getCookie(name) {
 }
 
 submitBtn.addEventListener('click', sendMessage);
+
+document.querySelectorAll('.command-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const cmd = chip.dataset.cmd;
+    document.getElementById('user-input').value = cmd;
+    document.getElementById('submit-btn').click();
+  });
+});
+
+document.getElementById('chat-area').addEventListener('click', (e) => {
+  const chip = e.target.closest('.command-chip');
+  if (!chip) return;
+
+  const cmd = chip.dataset.cmd;
+  document.getElementById('user-input').value = cmd;
+  document.getElementById('submit-btn').click();
+});
+
+function hideWelcome() {
+  welcomeScreen.classList.add('hidden');
+  setTimeout(() => {
+    welcomeScreen.style.display = 'none';
+  }, 300);
+}
+
+userInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    document.getElementById('submit-btn').click();
+  }
+});
