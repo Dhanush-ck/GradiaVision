@@ -31,22 +31,36 @@ def reply(request):
 
         reply =generate_reply(user_message)
 
-        if reply == "sgpa":
+        if reply == "cgpa":
             sem_results = SemesterResult.objects.filter(student=user)
             all_sgpa = []
             for sem in sem_results:
                 all_sgpa.append(sem.sgpa)
-            sgpa = round(sum(all_sgpa)/len(all_sgpa), 2)
-            reply = f"Your current SGPA is {sgpa}"
+            cgpa = round(sum(all_sgpa)/len(all_sgpa), 2)
+            reply = f"Your current CGPA is {cgpa}"
 
-        if reply == 'change':
+        if reply == 'predict':
             return JsonResponse({
-                "reply": "Usage: /change &lt;toughness&gt; &lt;study hours&gt; &lt;planned effort&gt; <br> toughness -> 1-5 <br> planned efforts -> 1-5 <br> Eg: /change 4 3 5",
+                "reply": """<b>/predict</b> – Estimate your next semester performance 🔮 <br><br>
+
+                            <b>How to use:</b> <br>
+                            /predict &lt;semester_toughness&gt; &lt;avg_study_hours&gt; &lt;planned_effort&gt; <br><br>
+
+                            <b>Value Ranges:</b> <br>
+                            • Semester Toughness → 1 (Very Easy) to 5 (Very Tough) <br>
+                            • Average Study Hours → 0 to 12 hours per day <br>
+                            • Planned Effort → 1 (Low) to 5 (Maximum) <br><br>
+
+                            <b>Example:</b> <br>
+                            /predict 4 3 5 <br><br>
+
+                            This means: <br>
+                            Tough semester, 3 study hours per day, and strong effort planned. """,
                 "help": 'help',
             })
 
         if isinstance(reply, dict):
-            if reply['type'] == 'change':
+            if reply['type'] == 'predict':
                 toughness = reply['values'][0]
                 study_hours = reply['values'][1]
                 planned_effort = reply['values'][2]
@@ -87,14 +101,20 @@ def reply(request):
                 all_sgpa = []
                 for sem in sem_results:
                     all_sgpa.append(sem.sgpa)
+                current_cgpa = round(sum(all_sgpa)/len(all_sgpa), 2)
                 target_cgpa = reply['percentage'] / 10
+                if target_cgpa < current_cgpa:
+                    return JsonResponse({
+                        "reply": f"You already have {current_cgpa} CGPA"
+                    })
 
                 required = round((target_cgpa * (len(all_sgpa)+1)) - sum(all_sgpa), 2)
 
-                print(all_sgpa)
-                print("CGPA", sum(all_sgpa)/len(all_sgpa))
-                print("CGPA", (sum(all_sgpa)+required)/(len(all_sgpa)+1))
-                print(required)
+
+                # print(all_sgpa)
+                # print("CGPA", current_cgpa)
+                # print("CGPA", (sum(all_sgpa)+required)/(len(all_sgpa)+1))
+                # print(required)
             
                 if required < 10:
                     reply = f"You need {required} SGPA in next semester for achieving {target_cgpa} CGPA"
