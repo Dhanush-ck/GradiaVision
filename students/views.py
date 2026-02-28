@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 import json
 
@@ -31,14 +32,14 @@ def signup_page(request):
         form = StudentForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username'].strip()
-            email = form.cleaned_data['email'].strip()
+            email = form.cleaned_data['email'].lower().strip()
             regno = form.cleaned_data['regno'].strip()
             semester = form.cleaned_data['semester']
             department = request.POST.get('department')
             course = request.POST.get('course')
             # password = request.POST.get('password')
-            password = form.cleaned_data['password']
-            confirm_password = request.POST.get('confirmPassword')
+            password = form.cleaned_data['password'].strip()
+            confirm_password = request.POST.get('confirmPassword').strip()
             security_question =  form.cleaned_data['security_question']
             security_answer = form.cleaned_data['security_answer']
 
@@ -104,6 +105,8 @@ def signup_page(request):
         'form': form,
     })
 
+
+@login_required(login_url='signin')
 def dashboard(request):
     user = request.user.userprofile.student
     current_class = user.course + str(math.ceil(user.semester/2))
@@ -132,6 +135,7 @@ def dashboard(request):
         'semester': semester,
     })
 
+@login_required(login_url='signin')
 def upload(request):
     extracted_data = None
     error = None
@@ -213,7 +217,12 @@ def upload(request):
                         total=subject['PR']['awarded']['cca']+subject['PR']['awarded']['ese'],
                     )
 
-            if extracted_data['semester'] != 1:
+            semester_result = SemesterResult.objects.filter(student=user)
+            all_sgpa = []
+            for sem in semester_result:
+                all_sgpa.append(sem.sgpa)
+
+            if len(all_sgpa) !=1:
                 student_mark_object = StudentMark.objects.filter(student=user)
                 student_marks_percentage = []
                 for i in student_mark_object:
@@ -222,10 +231,6 @@ def upload(request):
                 average_mark = round(sum(student_marks_percentage)/len(student_marks_percentage), 2)
                 # print(average_mark)
 
-                semester_result = SemesterResult.objects.filter(student=user)
-                all_sgpa = []
-                for sem in semester_result:
-                    all_sgpa.append(sem.sgpa)
                 average_sgpa = round(sum(all_sgpa)/len(all_sgpa), 2)
                 previous_sgpa = all_sgpa[-1]
                 sgpa_trend = round(all_sgpa[-2] - all_sgpa[-1], 2)
@@ -290,6 +295,7 @@ def upload(request):
         'error': error,
     })
 
+@login_required(login_url='signin')
 def preview(request):
     user = request.user.userprofile.student
     sem = SemesterResult.objects.filter(student=user)
@@ -384,14 +390,16 @@ def graph_manage(request):
         })
     else:
         results = SemesterResult.objects.filter(student=user).order_by('semester')
+        semester_numbers = []
         semesters = []
         scores = []
         for result in results:
             semesters.append(f"Semester {result.semester}")
+            semester_numbers.append(result.semester)
             scores.append(result.sgpa)
         if Prediction.objects.filter(student=user).exists():
             prediction = Prediction.objects.get(student=user)
-            semesters.append(f"Semester {len(results)+1} (Predicted)")
+            semesters.append(f"Semester {max(semester_numbers)+1} (Predicted)")
             scores.append(prediction.predicted_sgpa)
         return JsonResponse({
             'semesters': semesters,
