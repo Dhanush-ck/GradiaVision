@@ -3,10 +3,6 @@ import random
 
 TOTAL_PER_INTENT = 200
 
-# ----------------------
-# Base phrase templates
-# ----------------------
-
 greeting_base = [
     "hi", "hello", "hey mentor", "good morning", "good evening",
     "hello mentor", "hi sir", "hey", "morning mentor"
@@ -58,10 +54,6 @@ casual_words = ["", " mentor", " bro", " please", " sir"]
 
 rows = []
 
-# ----------------------
-# Generator Function
-# ----------------------
-
 def generate_sentences(base_list, intent):
     data = []
     while len(data) < TOTAL_PER_INTENT:
@@ -84,7 +76,7 @@ rows += generate_sentences(attendance_base, "attendance_issue")
 # Stress
 rows += generate_sentences(stress_base, "stress_motivation")
 
-# Target Percentage (special handling)
+# Target Percentage
 percent_rows = []
 while len(percent_rows) < TOTAL_PER_INTENT:
     p = random.choice(range(50, 96, 5))
@@ -95,10 +87,8 @@ while len(percent_rows) < TOTAL_PER_INTENT:
 
 rows += percent_rows
 
-# Shuffle
 random.shuffle(rows)
 
-# Create CSV
 df = pd.DataFrame(rows, columns=["text", "intent"])
 df.to_csv("intent_dataset.csv", index=False)
 
