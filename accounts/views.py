@@ -29,8 +29,8 @@ def signin(request):
             # email = request.POST['email']
             # password = request.POST['password']
 
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
+            email = form.cleaned_data['email'].lower().strip()
+            password = form.cleaned_data['password'].strip()
 
             try:
                 user_obj = User.objects.get(username=email)
