@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 from tutors.forms import TutorForm
 
@@ -24,11 +25,11 @@ def signup_page(request):
     if request.method == 'POST':
         form = TutorForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            email = form.cleaned_data['email']
+            username = form.cleaned_data['username'].strip()
+            email = form.cleaned_data['email'].lower().strip()
             class_charge = form.cleaned_data['class_charge']
-            password = form.cleaned_data['password']
-            confirm_password = request.POST.get('confirmPassword')
+            password = form.cleaned_data['password'].strip()
+            confirm_password = request.POST.get('confirmPassword').strip()
             security_question =  form.cleaned_data['security_question']
             security_answer = form.cleaned_data['security_answer']
 
@@ -68,6 +69,7 @@ def signup_page(request):
         'form': form,
     })
 
+@login_required(login_url='signin')
 def dashboard(request):
 
     user = request.user.userprofile.tutor
@@ -77,6 +79,7 @@ def dashboard(request):
         'class_charge': user.class_charge,
     })
 
+@login_required(login_url='signin')
 def upload(request):
 
     user = request.user.userprofile.tutor
