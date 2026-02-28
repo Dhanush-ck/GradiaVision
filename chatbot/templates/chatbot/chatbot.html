@@ -14,13 +14,41 @@
         <a href="{% url 'student_dashboard' %}" class="back-btn">← Dashboard</a>
         <h1 class="chat-title">🤖 Mentor Bot <span>Ask me anything</span></h1>
     </div>
+
     <div class="container">
         <div class="container-element">
             <div class="chat-area-holder">
+
+                <div class="welcome-screen" id="welcome-screen">
+                    <div class="welcome-icon">🤖</div>
+                    <h2 class="welcome-title">Mentor Bot</h2>
+                    <p class="welcome-subtitle">Your personal academic assistant</p>
+
+                    <div class="welcome-commands">
+                        <p class="commands-label">Here's what I can help you with 👇</p>
+                        <div class="command-list">
+                            <div class="command-chip" data-cmd="/cgpa">
+                                <span class="cmd-name">/cgpa</span>
+                                <span class="cmd-desc">See your current CGPA 📊</span>
+                            </div>
+                            <div class="command-chip" data-cmd="/predict">
+                                <span class="cmd-name">/predict</span>
+                                <span class="cmd-desc">Update study details to estimate next semester 🔮</span>
+                            </div>
+                            <div class="command-chip" data-cmd="/">
+                                <span class="cmd-name">/</span>
+                                <span class="cmd-desc">Show these details again</span>
+                            </div>
+
+                        </div>
+                        <p class="welcome-hint">or just type anything below ↓</p>
+                    </div>
+                </div>
+
                 <div id="chat-area"></div>
             </div>
             <div class="input-area">
-                <input type="text" id="user-input">
+                <input type="text" id="user-input" placeholder="How can I help you?">
                 <button id="submit-btn">Send</button>
             </div>
         </div>
