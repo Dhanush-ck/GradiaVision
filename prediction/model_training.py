@@ -10,6 +10,22 @@ import matplotlib.pyplot as plt
 
 df  = pd.read_csv('./dataset/dataset.csv')
 
+print("Null count")
+print(df.isnull().sum())
+print()
+
+print("Descriptive Statistics")
+print(df.describe())
+print()
+
+print("Info")
+print(df.info())
+print()
+
+df.fillna(df.mean(), inplace=True)  
+
+df.drop_duplicates(inplace=True)
+
 x = df.drop("next_sgpa", axis=1)
 y = df["next_sgpa"]
 
@@ -32,7 +48,7 @@ predictions = model.predict(x_test)
 print("MAE: ", mean_absolute_error(y_test, predictions))
 print("R2 Score: ", r2_score(y_test, predictions))
 
-joblib.dump(model, "random_forest.pkl")
+# joblib.dump(model, "random_forest.pkl")
 
 print("Model Created")
 
