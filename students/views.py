@@ -144,6 +144,12 @@ def upload(request):
     if request.method == "POST":
         pdf_file = request.FILES.get("pdf")
         extracted_data = extract_marklist_data_fyugp(pdf_file)
+        if extracted_data['regno'] != user.regno:
+            error = "Upload only your marklist"
+            
+            return render(request, 'students/upload.html', {
+                'error': error,
+            })
         if extracted_data['name'] != user.username.upper():
             error = "Upload only your marklist"
             
