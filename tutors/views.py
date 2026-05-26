@@ -209,8 +209,8 @@ def tutor_graph(request):
         else:
             grades_count['F'] += 1
 
-    print(list(grades_count.values()))            
-    print(list(grades_count.keys()))            
+    # print(list(grades_count.values()))            
+    # print(list(grades_count.keys()))            
 
     return JsonResponse({
         'count': list(grades_count.values()),
@@ -235,3 +235,25 @@ def add_notification(request):
         )
 
     return JsonResponse({'message': 'Notification added successfully'})
+
+def view_student(request):
+
+    user = request.user.userprofile.tutor
+
+    students = Student.objects.filter(current_class=user.class_charge)
+
+    data = []
+    for i in students:
+        student = {
+            "name": i.username,
+            "email": i.email,
+            "regno": i.regno,
+        }
+        data.append(student)
+
+    return render(request, 'tutors/view_students.html', {
+        'data': data, 
+    })
+
+def filter_student(request):
+    ...
