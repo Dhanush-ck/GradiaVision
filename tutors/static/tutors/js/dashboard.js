@@ -11,7 +11,7 @@ const courses = {
     }
 }
 
-const alertBtn = document.getElementById('risk');
+// const alertBtn = document.getElementById('risk');
 const riskType = document.getElementById('type');
 const tableHead = document.getElementById('table-head');
 const tableBody = document.getElementById('table-body');
@@ -30,9 +30,6 @@ const classUpdate = document.getElementById('class-update');
 const graph = document.getElementById('graph').getContext('2d');
 let graphChart = null;
 
-alertBtn.addEventListener('click', ()=>{
-    getAlerts(type.value);
-});
 riskType.addEventListener('change', ()=> {
     getAlerts(type.value);
 });
