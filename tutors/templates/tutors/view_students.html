@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'tutors/css/dashboard.css' %}">
+</head>
+<body>
+    <div class="container">
+
+        <select name="department" id="department">
+            <option value="Commerce" >Department of Commerce</option>
+            <option value="Computer Science" selected>Department of Computer Science</option>
+            <option value="History">Department of History</option>
+        </select>
+
+        Course:
+        <select name="course" id="course">
+
+        </select>
+
+        <h1>HELLO</h1>
+        {% for student in data %}
+            <ul>
+                <li> {{student.name}} </li>
+                <li> {{student.email}} </li>
+                <li> {{student.regno}} </li>
+            </ul>
+        {% endfor %}
+    </div>
+
+    <script src="{% static "tutors/js/view_students.js" %}"></script>
+</body>
