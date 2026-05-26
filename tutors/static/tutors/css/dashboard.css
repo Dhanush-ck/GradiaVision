@@ -144,7 +144,8 @@ a[href*="attendance"]::before {
   font-size: 1rem;
 }
 
-#notif-btn {
+#notif-btn, a[href*="students"] {
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -162,7 +163,7 @@ a[href*="attendance"]::before {
   align-self: flex-start;
 }
 
-#notif-btn:hover {
+#notif-btn:hover, a[href*="students"]:hover {
   background: var(--bg);
   border-color: var(--primary);
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
