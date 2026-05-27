@@ -9,7 +9,9 @@ class Student(models.Model):
     profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     username = models.CharField(max_length=100)
     email = models.EmailField(max_length=254)
+    aadhaar = models.CharField(max_length=12, default="XXXXXXXXXXXX")
     regno = models.CharField(max_length=20, unique=True)
+
     semester = models.IntegerField()
     department = models.CharField(max_length=200)
     course = models.CharField(max_length=200)
@@ -17,9 +19,9 @@ class Student(models.Model):
 
     tutor_email = models.EmailField(max_length=255, default='teacher@gmail.com')
 
-    toughness = models.JSONField(default=dict)
-    study_hours = models.JSONField(default=dict)
-    sleep_hours = models.JSONField(default=dict)
+    # toughness = models.JSONField(default=dict)
+    # study_hours = models.JSONField(default=dict)
+    # sleep_hours = models.JSONField(default=dict)
 
     def save(self, *args, **kwargs):
         self.current_class = self.course + str(math.ceil(self.semester/2))
