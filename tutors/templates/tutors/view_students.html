@@ -6,31 +6,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="{% static 'tutors/css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'tutors/css/view_students.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
+        <div id="data-holder" data-course={{course}} data-year={{year}}></div>
 
-        <select name="department" id="department">
-            <option value="Commerce" >Department of Commerce</option>
-            <option value="Computer Science" selected>Department of Computer Science</option>
-            <option value="History">Department of History</option>
-        </select>
+        <div class="filter-bar">
+            <span class="filter-label">Department</span>
+            <select name="department" id="department">
+                <option value="Commerce" >Department of Commerce</option>
+                <option value="Computer Science" selected>Department of Computer Science</option>
+                <option value="History">Department of History</option>
+            </select>
+            <span class="filter-label">Course</span>
+            <select name="course" id="course"></select>
+            <span class="filter-label">Year</span>
+            <select name="year" id="year">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <button name="updateFilter" id="updateFilter">Update Filter</button>
+        </div>
 
-        Course:
-        <select name="course" id="course">
+        <h2 id="students-heading">Students</h2>
 
-        </select>
+        <div id="students">
+            {% for student in data %}
+                <div class="student" data-email={{student.email}}>
+                    <div class="studentName"> {{student.name}} </div>
+                    <div class="studentRegno"> {{student.regno}} </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="modal-overlay" id="card-overlay">
+        <div id="studentCard">
+            <div class="card-header">
+            <div class="card-info">
+                <div id="studentCardName"></div>
+                <div id="studentCardRegno"></div>
+                <div id="studentCardEmail"></div>
+                <div id="studentCardAadhaar"></div>
+            </div>
+            <div id="close">✕</div>
+            </div>
+            <div class="card-divider"></div>
+            <div class="card-filters">
+            <select id="type">
+                <option value="course">Course</option>
+                <option value="sem">Semester</option>
+            </select>
+            <select id="semester"></select>
+            </div>
+            <div class="graph-wrapper">
+                <canvas id="graph"></canvas>
+            </div>
+        </div>
+        </div>
 
-        <h1>HELLO</h1>
-        {% for student in data %}
-            <ul>
-                <li> {{student.name}} </li>
-                <li> {{student.email}} </li>
-                <li> {{student.regno}} </li>
-            </ul>
-        {% endfor %}
     </div>
 
     <script src="{% static "tutors/js/view_students.js" %}"></script>
+
 </body>
