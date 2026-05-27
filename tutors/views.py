@@ -10,6 +10,7 @@ from tutors.forms import TutorForm
 from accounts.models import UserProfile
 from tutors.models import Tutor
 from students.models import Student
+from students.models import StudentMark
 from students.models import Notification
 from students.models import SemesterResult
 from tutors.models import AttendanceRisk
@@ -240,20 +241,138 @@ def view_student(request):
 
     user = request.user.userprofile.tutor
 
-    students = Student.objects.filter(current_class=user.class_charge)
+    students = Student.objects.filter(current_class=user.class_charge).order_by('regno')
 
     data = []
-    for i in students:
-        student = {
-            "name": i.username,
-            "email": i.email,
-            "regno": i.regno,
+    for student in students:
+        student_obj = {
+            "name": student.username,
+            "email": student.email,
+            "regno": student.regno,
         }
-        data.append(student)
+        data.append(student_obj)
+    
+    course = user.class_charge[:-1]
+    year = user.class_charge[-1]
 
     return render(request, 'tutors/view_students.html', {
         'data': data, 
+        'course': course,
+        'year': year,
     })
 
+@csrf_exempt
 def filter_student(request):
-    ...
+
+    data = json.loads(request.body.decode("utf-8"))
+
+    class_info = data.get('message')
+
+    students = Student.objects.filter(current_class=class_info).order_by('regno')
+
+    student_data = []
+    for student in students:
+        student_obj = {
+            "name": student.username,
+            "email": student.email,
+            "regno": student.regno,
+        }
+        student_data.append(student_obj)
+
+    return JsonResponse({
+        'class_info': student_data
+    })
+
+@csrf_exempt
+def student_card(request):
+
+    data = json.loads(request.body.decode("utf-8"))
+
+    email = data.get('email')
+
+    student = Student.objects.get(email=email)
+
+    semesters_data = SemesterResult.objects.filter(student=student).order_by('semester')
+    semesters = []
+    for semester in semesters_data:
+        semesters.append(semester.semester)
+
+
+    graph_data = update_student_card_graph(student, "course")
+
+    return JsonResponse({
+        'name': student.username,
+        'email': student.email,
+        'regno': student.regno,
+        'semester': student.semester,
+        'aadhaar': student.aadhaar[:4] + " " + student.aadhaar[4:8] + " " + student.aadhaar[8:],
+        'semesters': graph_data['semesters'],
+        'scores': graph_data['scores'],
+        'semester_count': semesters,
+    })
+
+
+def update_student_card_graph(user, graph_type, semester=1):
+    if graph_type == "sem":
+        subjects = StudentMark.objects.filter(student=user, semester__semester=semester)
+        subjects_total = {}
+        for i in subjects:
+            subjects_total[i.subject.name] = subjects_total.get(i.subject.name, {})
+            subjects_total[i.subject.name]['total'] = subjects_total[i.subject.name].get('total', 0) + i.total
+            subjects_total[i.subject.name]['total_max'] = subjects_total[i.subject.name].get('total_max', 0) + i.total_max
+        subject_names = []
+        subject_percentages = []
+        for key, value in subjects_total.items():
+            subject_names.append(key)
+            percentage = round((value['total']/value['total_max'])*100, 2)
+            subject_percentages.append(percentage)
+        
+        graph_data = {
+            'subjects': subject_names,
+            'percentages': subject_percentages,
+        }
+
+        return graph_data
+    else:
+        results = SemesterResult.objects.filter(student=user).order_by('semester')
+        semester_numbers = []
+        semesters = []
+        scores = []
+        for result in results:
+            semesters.append(f"Semester {result.semester}")
+            semester_numbers.append(result.semester)
+            scores.append(result.sgpa)
+        # if Prediction.objects.filter(student=user).exists():
+        #     prediction = Prediction.objects.get(student=user)
+        #     semesters.append(f"Semester {max(semester_numbers)+1} (Predicted)")
+        #     scores.append(prediction.predicted_sgpa)
+        graph_data = {
+            'semesters': semesters,
+            'scores': scores,
+        }
+
+        return graph_data
+    
+@csrf_exempt
+def handle_graph_type(request):
+
+    data = json.loads(request.body.decode("utf-8"))
+
+    email = data.get('email')
+    graph_type = data.get('graph_type')
+    semester = data.get('semester')
+
+    student = Student.objects.get(email=email)
+    graph_data  = update_student_card_graph(student, graph_type, semester)
+
+    if graph_type == "course":    
+        return JsonResponse({
+            "semesters": graph_data['semesters'],
+            "scores": graph_data['scores'],
+        })
+    else:
+        print(graph_data)
+        return JsonResponse({
+            "subjects": graph_data['subjects'],
+            'percentages': graph_data['percentages'],
+        })
