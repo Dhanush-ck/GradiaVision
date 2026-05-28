@@ -36,8 +36,8 @@ def signup_page(request):
             regno = form.cleaned_data['regno'].strip()
             semester = form.cleaned_data['semester']
             department = request.POST.get('department')
+            aadhaar = form.cleaned_data['aadhaar']
             course = request.POST.get('course')
-            # password = request.POST.get('password')
             password = form.cleaned_data['password'].strip()
             confirm_password = request.POST.get('confirmPassword').strip()
             security_question =  form.cleaned_data['security_question']
@@ -92,7 +92,8 @@ def signup_page(request):
                             semester=semester,
                             department=department,
                             course=course,
-                            tutor_email=tutor_email
+                            tutor_email=tutor_email,
+                            aadhaar=aadhaar,
                         )
                         student.save()
 
