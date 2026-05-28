@@ -26,7 +26,7 @@
             <form method="post" id="form">
                 {% csrf_token %}
                 <span>Name: <strong>{{ name }}</strong></span>
-                <span>Class in charge: <strong>{{ class_charge }}</strong></span>
+                <span>Class in charge: <strong id="class">{{ class_charge }}</strong></span>
             </form>
 
             <div class="action-row">
