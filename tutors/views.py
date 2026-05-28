@@ -126,7 +126,7 @@ def risk(request):
 
     if risk_type == "attendance":
         # print('attendance')
-        alert = AttendanceRisk.objects.filter(student__tutor_email=user.email)
+        alert = AttendanceRisk.objects.filter(student__current_class=user.class_charge)
         alerts = []
         for i in alert:
             temp = {}
@@ -140,7 +140,7 @@ def risk(request):
 
     else:
         # print('academic')
-        alert = AcademicRisk.objects.filter(student__tutor_email=user.email).order_by('sgpa_trend')
+        alert = AcademicRisk.objects.filter(student__current_class=user.class_charge).order_by('sgpa_trend')
         alerts = []
         for i in alert:
             temp = {}
@@ -189,26 +189,27 @@ def tutor_graph(request):
     for student in students:
         sgpas = []
         semesters = SemesterResult.objects.filter(student__current_class=student.current_class)
-        for semester in semesters:
-            sgpas.append(semester.sgpa)
-        sgpa = sum(sgpas)/len(sgpas)
+        if(semesters):
+            for semester in semesters:
+                sgpas.append(semester.sgpa)
+            sgpa = sum(sgpas)/len(sgpas)
 
-        if sgpa >= 9.5:
-            grades_count['O'] += 1
-        elif sgpa >= 8.5:
-            grades_count['A+'] += 1
-        elif sgpa >= 7.5:
-            grades_count['A'] += 1
-        elif sgpa >= 6.5:
-            grades_count['B+'] += 1
-        elif sgpa >= 5.5:
-            grades_count['B'] += 1
-        elif sgpa >= 4.5:
-            grades_count['C'] += 1
-        elif sgpa >= 3.5:
-            grades_count['P'] += 1
-        else:
-            grades_count['F'] += 1
+            if sgpa >= 9.5:
+                grades_count['O'] += 1
+            elif sgpa >= 8.5:
+                grades_count['A+'] += 1
+            elif sgpa >= 7.5:
+                grades_count['A'] += 1
+            elif sgpa >= 6.5:
+                grades_count['B+'] += 1
+            elif sgpa >= 5.5:
+                grades_count['B'] += 1
+            elif sgpa >= 4.5:
+                grades_count['C'] += 1
+            elif sgpa >= 3.5:
+                grades_count['P'] += 1
+            else:
+                grades_count['F'] += 1
 
     # print(list(grades_count.values()))            
     # print(list(grades_count.keys()))            
@@ -237,6 +238,7 @@ def add_notification(request):
 
     return JsonResponse({'message': 'Notification added successfully'})
 
+@login_required(login_url='signin')
 def view_student(request):
 
     user = request.user.userprofile.tutor
