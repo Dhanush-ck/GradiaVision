@@ -333,6 +333,8 @@ function setSemesters(semesters) {
 
 document.getElementById('close').addEventListener('click', () => {
   document.getElementById('card-overlay').classList.remove('active');
+  type.value = "course";
+  showSem();
 });
 
 document.getElementById('card-overlay').addEventListener('click', (e) => {
