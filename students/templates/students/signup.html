@@ -32,6 +32,11 @@
                 {% if form.email.errors %}
                     <div class="error"> {{form.email.errors.0}} </div>
                 {% endif %}
+
+                Aadhaar Number
+                {{form.aadhaar}}
+
+                <div id="aadhaar-error" class="error"></div>
         
                 Registration no
                 {{form.regno}}
