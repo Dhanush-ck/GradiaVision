@@ -19,10 +19,12 @@ var email = document.getElementById('email');
 var confirmPassword = document.getElementById('confirm-password');
 var signUpForm = document.getElementById('signUpForm');
 var submitBtn = document.getElementById('submit-button');
+var aadhaar = document.getElementById('aadhaar');
 
 var semesterError = document.getElementById('semester-error');
 var passwordError = document.getElementById('password-error');
 var emailError = document.getElementById('email-error');
+var aadhaarError = document.getElementById('aadhaar-error');
 
 departmentDropdown.addEventListener('change', function() {
     console.log("Department: " + this.value);
@@ -79,5 +81,28 @@ email.addEventListener('change', ()=> {
     else {
         submitBtn.disabled = false;
         emailError.innerHTML = '';
+    }
+})
+
+aadhaar.addEventListener('change', ()=> {
+    const val = aadhaar.value;
+    console.log(val)
+    if(val) {
+        if(isNaN(val)) {
+            submitBtn.disabled = true;
+            aadhaarError.innerHTML = "Enter valid aadhaar number";
+        }
+        else if(val.length != 12) {
+            submitBtn.disabled = true;
+            aadhaarError.innerHTML = "Aadhaar contains 12 digits";        
+        }
+        else { 
+            submitBtn.disabled = false;
+            aadhaarError.innerHTML = "";
+        }
+    }
+    else {
+        submitBtn.disabled = false;
+        aadhaarError.innerHTML = "";
     }
 })
