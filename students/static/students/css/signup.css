@@ -59,9 +59,6 @@ form::-webkit-scrollbar-thumb{
 form{
     scrollbar-width:thin;
     scrollbar-color:#7A1CAC transparent;
-}
-
-form{
     width:100%;
     max-width:520px;
     max-height:80vh;
