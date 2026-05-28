@@ -8,4 +8,4 @@ class StudentForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder':"Enter your email", 'id':'email'}))
     security_question = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': "Enter the question", 'id': 'security-question'}))
     security_answer = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'placeholder': 'Enter the answer', 'id': 'security-answer'}))
-
+    aadhaar = forms.CharField(max_length=12, widget=forms.TextInput(attrs={'placeholder': "Enter your Aadhaar number", "id": "aadhaar"}))
