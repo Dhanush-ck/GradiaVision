@@ -26,6 +26,7 @@ var departmentDropdown = document.getElementById('department');
 var courseDropdown = document.getElementById('course');
 var year = document.getElementById('year');
 const classUpdate = document.getElementById('class-update');
+var currentClass = document.getElementById('class');
 
 const graph = document.getElementById('graph').getContext('2d');
 let graphChart = null;
@@ -131,12 +132,16 @@ function updateClass() {
     })
     .then(response => response.json())
     .then(data => {
+        getAlerts(type.value);
+        setGraph();
+        currentClass.innerHTML = current_class;
         alert(data.message);
     })
+
 }
 
 function setGraph(){
-
+    console.log(1)
     fetch("/tutor/graph/", {
         method: "POST",
         headers: {
@@ -146,8 +151,8 @@ function setGraph(){
     })
     .then(response => response.json())
     .then(data => {
-        // console.log(data.count)
-        // console.log(data.grades)
+        console.log(data.count)
+        console.log(data.grades)
         if(graphChart) {
             graphChart.destroy();
         }
@@ -179,6 +184,7 @@ function setGraph(){
                 }
             }
         });
+        graphChart.update();
     });
 }
 
