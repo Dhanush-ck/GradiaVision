@@ -33,11 +33,14 @@ def reply(request):
 
         if reply == "cgpa":
             sem_results = SemesterResult.objects.filter(student=user)
-            all_sgpa = []
-            for sem in sem_results:
-                all_sgpa.append(sem.sgpa)
-            cgpa = round(sum(all_sgpa)/len(all_sgpa), 2)
-            reply = f"Your current CGPA is {cgpa}"
+            if sem_results:
+                all_sgpa = []
+                for sem in sem_results:
+                    all_sgpa.append(sem.sgpa)
+                cgpa = round(sum(all_sgpa)/len(all_sgpa), 2)
+                reply = f"Your current CGPA is {cgpa}"
+            else:
+                reply = "System doesn't have any of your marklists. Upload the marklists to know your cgpa✨."
 
         if reply == 'predict':
             return JsonResponse({
@@ -93,33 +96,36 @@ def reply(request):
 
                 else: 
                     return JsonResponse({
-                        'reply': "Sorry you don't have any previous prediction data."
+                        'reply': "Sorry you don't have any previous marklist uploaded."
                     })
 
             elif reply['type'] == 'percentage':
                 sem_results = SemesterResult.objects.filter(student=user)
-                all_sgpa = []
-                for sem in sem_results:
-                    all_sgpa.append(sem.sgpa)
-                current_cgpa = round(sum(all_sgpa)/len(all_sgpa), 2)
-                target_cgpa = reply['percentage'] / 10
-                if target_cgpa < current_cgpa:
-                    return JsonResponse({
-                        "reply": f"You already have {current_cgpa} CGPA"
-                    })
+                if(sem_results):
+                    all_sgpa = []
+                    for sem in sem_results:
+                        all_sgpa.append(sem.sgpa)
+                    current_cgpa = round(sum(all_sgpa)/len(all_sgpa), 2)
+                    target_cgpa = reply['percentage'] / 10
+                    if target_cgpa < current_cgpa:
+                        return JsonResponse({
+                            "reply": f"You already have {current_cgpa} CGPA"
+                        })
 
-                required = round((target_cgpa * (len(all_sgpa)+1)) - sum(all_sgpa), 2)
+                    required = round((target_cgpa * (len(all_sgpa)+1)) - sum(all_sgpa), 2)
 
 
-                # print(all_sgpa)
-                # print("CGPA", current_cgpa)
-                # print("CGPA", (sum(all_sgpa)+required)/(len(all_sgpa)+1))
-                # print(required)
-            
-                if required < 10:
-                    reply = f"You need {required} SGPA in next semester for achieving {target_cgpa} CGPA"
+                    # print(all_sgpa)
+                    # print("CGPA", current_cgpa)
+                    # print("CGPA", (sum(all_sgpa)+required)/(len(all_sgpa)+1))
+                    # print(required)
+                
+                    if required < 10:
+                        reply = f"You need {required} SGPA in next semester for achieving {target_cgpa} CGPA"
+                    else:
+                        reply = f"You can't achieve {target_cgpa} CGPA only through next semester"
                 else:
-                    reply = f"You can't achieve {target_cgpa} CGPA only through next semester"
+                    reply = "Sorry we don't have any marklists of yours. Upload marklist to know the required SGPA😊"
 
         return JsonResponse({
             "reply": reply
