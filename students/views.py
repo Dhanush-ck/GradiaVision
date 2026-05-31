@@ -109,35 +109,28 @@ def signup_page(request):
 
 @login_required(login_url='signin')
 def dashboard(request):
-    user = request.user.userprofile.student
-    current_class = user.course + str(math.ceil(user.semester/2))
+    user = request.user.userprofile.role
+    if user == "student":
+        user = request.user.userprofile.student
+        current_class = user.course + str(math.ceil(user.semester/2))
 
-    semester = SemesterResult.objects.filter(student=user).count()
-
-    if request.method == "POST":
-        # print(pdf_file)
-
-        
-            # print(extracted_data)
-
-
-            ...
-    else:
+        semester = SemesterResult.objects.filter(student=user).count()
+            
         return render(request, 'students/dashboard.html', {
             'name': user.username,
             'class': current_class,
             'semester': semester,
         })
-        
-
-    return render(request, 'students/dashboard.html', {
-        'name': user.username,
-        'class': current_class,
-        'semester': semester,
-    })
+    else:
+        request.session['message'] = "This webpage is only for students"
+        return redirect('/account/warning')
 
 @login_required(login_url='signin')
 def upload(request):
+    user = request.user.userprofile.role
+    if user != "student":
+        request.session['message'] = "This webpage is only for students"
+        return redirect('/account/warning')
     extracted_data = None
     error = None
     user = request.user.userprofile.student
@@ -166,7 +159,7 @@ def upload(request):
             })
 
         course = extracted_data['programme']
-        print(course)
+        # print(course)
         if 'Bachelor of Computer Application' in extracted_data['programme']:
             course = 'BCA'
         if course != user.course:
@@ -304,6 +297,9 @@ def upload(request):
 
 @login_required(login_url='signin')
 def preview(request):
+    if user != "student":
+        request.session['message'] = "This webpage is only for students"
+        return redirect('/account/warning')
     user = request.user.userprofile.student
     sem = SemesterResult.objects.filter(student=user)
     current_sem = [i.semester for i in sem]
