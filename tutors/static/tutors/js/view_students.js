@@ -54,6 +54,19 @@ const handleCourse = ()=> {
 }
 handleCourse();
 
+courseDropdown.addEventListener('change', ()=> {
+    yearDropdown.innerHTML = "";
+    handleYear();
+})
+
+function handleYear() {
+    const n = courseDropdown.value == "MScCS" ? 2: 4;
+    for(i=1; i<=n; i++) {
+        yearDropdown.innerHTML += `<option value=${i}>${i}</option>`
+    }
+}
+handleYear();
+
 for( key in courses) {
     if(courses[key][dataHolder.dataset.course]) {
         departmentDropdown.value = key;
