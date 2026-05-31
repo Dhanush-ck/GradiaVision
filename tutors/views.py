@@ -73,6 +73,12 @@ def signup_page(request):
 @login_required(login_url='signin')
 def dashboard(request):
 
+    user = request.user.userprofile.role
+
+    if user != "tutor":
+        request.session['message'] = "This webpage is only for tutors"
+        return redirect('/account/warning')
+
     user = request.user.userprofile.tutor
 
     return render(request, 'tutors/dashboard.html', {
@@ -82,6 +88,12 @@ def dashboard(request):
 
 @login_required(login_url='signin')
 def upload(request):
+
+    user = request.user.userprofile.role
+
+    if user != "tutor":
+        request.session['message'] = "This webpage is only for tutors"
+        return redirect('/account/warning')
 
     user = request.user.userprofile.tutor
 
@@ -240,6 +252,12 @@ def add_notification(request):
 
 @login_required(login_url='signin')
 def view_student(request):
+    
+    user = request.user.userprofile.role
+
+    if user != "tutor":
+        request.session['message'] = "This webpage is only for tutors"
+        return redirect('/account/warning')
 
     user = request.user.userprofile.tutor
 
