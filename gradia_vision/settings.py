@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'tutors',
     'prediction',
     'chatbot',
+    'attendance',
 ]
 
 MIDDLEWARE = [
