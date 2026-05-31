@@ -1,0 +1,64 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Marking</title>
+    <link rel="stylesheet" href="{% static 'attendance/css/attendance_marking.css' %}">
+</head>
+<body>
+    <div class="container">
+
+        <div class="filter-bar">
+            <span class="filter-label">Department</span>
+            <select name="department" id="department">
+                <option value="Commerce" >Department of Commerce</option>
+                <option value="Computer Science" selected>Department of Computer Science</option>
+                <option value="History">Department of History</option>
+            </select>
+
+            <span class="filter-label">Course</span>
+            <select name="course" id="course"></select>
+
+            <span class="filter-label">Year</span>
+            <select name="year" id="year">
+                
+            </select>
+            <button name="updateFilter" id="updateFilter">Update Filter</button>
+        </div>
+
+        Date:
+        <input type="date" id="date" name="date">
+
+        {% if message %}
+            {{message}}
+        {% else %}
+            <table>
+                <tr>
+                    <th>Roll No</th>
+                    <th>Name</th>
+                    <th>Present</th>
+                </tr>
+
+                {% for student in data %}
+                <tr>
+                    <td>{{ student.rollno }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>
+                        <input
+                            type="checkbox"
+                            name="present_students"
+                            value="{{ student.email }}"
+                        >
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+    </div>
+    <script src="{% static 'attendance/js/attendance_marking.js' %}"></script>
+</body>
+</html>
