@@ -126,3 +126,11 @@ def signout(request):
     logout(request)
     print("Logout")
     return redirect('/account/signin/')
+
+def warning(request):
+    message = request.session['message']
+    url = f"/{request.user.userprofile.role}/dashboard"
+    return render(request, 'accounts/warning.html', {
+        'message': message,
+        'url': url,
+    })
