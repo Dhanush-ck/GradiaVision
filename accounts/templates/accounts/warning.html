@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warning</title>
+    <link rel="stylesheet" href="{% static '/accounts/css/warning.css' %}">
+</head>
+<body>
+    <div class="warning-card">
+        <div class="warning-icon">🚫</div>
+        <h1 class="warning-title">Access Denied</h1>
+        <p class="warning-message">
+            {% if message %}
+                {{ message }}
+            {% else %}
+                You don't have permission to access this page.
+            {% endif %}
+        </p>
+        <a href="{{ url }}" class="home-link">← Go to Home</a>
+    </div>
+
+</body>
+</html>
