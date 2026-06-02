@@ -5,10 +5,17 @@ from students.models import Student
 # Create your models here.
 
 class Tutor(models.Model):
+    EVEN = 'E'
+    ODD = 'O'
+    SEM_CHOICES = [
+        (EVEN, 'EVEN'),
+        (ODD, 'ODD')
+    ]
     profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     username = models.CharField(max_length=100)
     email = models.EmailField(max_length=254)
     class_charge = models.CharField(max_length=50)
+    sem = models.CharField(max_length=1, choices=SEM_CHOICES, default=ODD)
 
     updated_at = models.DateTimeField(auto_now=True)
 
