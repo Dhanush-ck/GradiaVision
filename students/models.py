@@ -10,7 +10,7 @@ class Student(models.Model):
     username = models.CharField(max_length=100)
     email = models.EmailField(max_length=254)
     aadhaar = models.CharField(max_length=12, default="XXXXXXXXXXXX")
-    regno = models.CharField(max_length=20, unique=True)
+    regno = models.CharField(max_length=20, unique=True)    
 
     semester = models.IntegerField()
     department = models.CharField(max_length=200)
@@ -32,8 +32,9 @@ class Student(models.Model):
         return f"{self.regno} - Student"
     
 class Subject(models.Model):
-    course_code = models.CharField(max_length=20, unique=True)
+    course_code = models.CharField(max_length=20)
     name = models.CharField(max_length=200)
+    subject_class = models.CharField()
     semester = models.IntegerField(default=0)
     credits = models.IntegerField()
 
