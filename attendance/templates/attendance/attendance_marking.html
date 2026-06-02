@@ -11,6 +11,10 @@
 <body>
     <div class="container">
 
+        {% if course %}
+            <div id="data-holder" data-course={{course}} data-year={{year}} data-subjects={{subjects}}></div>
+        {% endif %}
+
         <div class="filter-bar">
             <span class="filter-label">Department</span>
             <select name="department" id="department">
@@ -32,6 +36,14 @@
         Date:
         <input type="date" id="date" name="date">
 
+        Subject: 
+        <select name="subject" id="subject">
+
+        </select>
+
+        Hour:
+        <input type="number" id="hour" name="hour" min="1" max="5" value="1">
+
         {% if message %}
             {{message}}
         {% else %}
@@ -41,22 +53,14 @@
                     <th>Name</th>
                     <th>Present</th>
                 </tr>
-
-                {% for student in data %}
-                <tr>
-                    <td>{{ student.rollno }}</td>
-                    <td>{{ student.name }}</td>
-                    <td>
-                        <input
-                            type="checkbox"
-                            name="present_students"
-                            value="{{ student.email }}"
-                        >
-                    </td>
-                </tr>
-                {% endfor %}
+                
+                <tbody id="students">
+                    
+                </tbody>
             </table>
         {% endif %}
+
+        <button name="submitBtn" id="submitBtn" >Update Attendance</button>
 
     </div>
     <script src="{% static 'attendance/js/attendance_marking.js' %}"></script>
