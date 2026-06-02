@@ -168,6 +168,8 @@ def upload(request):
             return render(request, 'students/upload.html', {
                 'error': error,
             })
+        
+        current_class = course + str(math.ceil(extracted_data['semester']/2))
 
         if SemesterResult.objects.filter(student=user, semester=extracted_data['semester']).exists():
             error = f"Semester {extracted_data['semester']} marklist already uploaded."
@@ -182,10 +184,13 @@ def upload(request):
                 total_credits=extracted_data['total']['credit']
             )
             for subject in extracted_data['subjects']:
-                if not Subject.objects.filter(course_code=subject['code']).exists():
+                if "\n" in subject['name']:
+                    subject['name'] = subject['name'].replace('\n', " ")
+                if not Subject.objects.filter(course_code=subject['code'], subject_class=current_class).exists():
                     subject_obj = Subject.objects.create(
                         course_code=subject['code'],
                         name=subject['name'],
+                        subject_class=current_class,
                         semester=extracted_data['semester'],
                         credits=subject['credit']
                     )
@@ -297,6 +302,7 @@ def upload(request):
 
 @login_required(login_url='signin')
 def preview(request):
+    user = request.user.userprofile.role
     if user != "student":
         request.session['message'] = "This webpage is only for students"
         return redirect('/account/warning')
