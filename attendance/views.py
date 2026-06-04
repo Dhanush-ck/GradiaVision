@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+
 
 from attendance.models import AttendanceSession, AttendanceRecord
 from tutors.models import Tutor
@@ -8,6 +10,7 @@ from students.models import Student
 from students.models import Subject
 
 import json
+from datetime import datetime
 
 from students.models import Student
 
@@ -18,12 +21,13 @@ def extractStudents(students):
     for student in students:
         student_obj = {
             "name": student.username,
-            "email": student.email,
+            "regno": student.regno,
             "rollno": int(student.regno[-2:])
         }
         data.append(student_obj)
     return data
 
+@login_required(login_url='signin')
 def attendance_marking(request):
     user = request.user.userprofile.role
 
@@ -80,21 +84,54 @@ def mark_attendance(request):
 
     data = json.loads(request.body.decode("utf-8"))
 
-    # print(data)
-    date = data['date']
+    year = int(user.class_charge[-1])
+    semester = (year*2) if (user.sem == 'E') else (year*2) - 1
+
+    date_raw = data['date']
+    date = datetime.strptime(date_raw, "%Y-%m-%d").date()
     hour = data['hour']
     students_attendance = data["attendance"]
+    subject_code = data['subject']
+    current_class = data['current_class']
 
     if(AttendanceSession.objects.filter(date=date, hour=hour).exists()):
         return JsonResponse({'message': 'This hours attendance already marked'})
+    else :
+        tutor = Tutor.objects.get(email=user.email)
+        subject = Subject.objects.get(course_code=subject_code)
 
-    tutor = Tutor.objects.get(email=user.email)
+        attendance_session = AttendanceSession.objects.create(
+            subject=subject,
+            tutor=tutor,
+            semester=semester,
+            hour=hour,
+            date=date,
+        )
 
+        present_regnos = [student['regno'] for student in students_attendance if student['status'] == 'P']
+        absent_regnos = [student['regno'] for student in students_attendance if student['status'] == 'A']
 
-    for student in students_attendance:
-        print(student['email'], student['status'])
+        present_students = Student.objects.filter(regno__in=present_regnos)
+        absent_students = Student.objects.filter(regno__in=absent_regnos)
 
-    return JsonResponse({'message': "Attendance Updated"})
+        for student in present_students:
+            AttendanceRecord.objects.create(
+                attendance_session=attendance_session,
+                student=student,
+                status=AttendanceRecord.PRESENT
+            )
+
+        for student in absent_students:
+            AttendanceRecord.objects.create(
+                attendance_session=attendance_session,
+                student=student,
+                status=AttendanceRecord.ABSENT
+            )
+        
+    # for student in students_attendance:
+    #     print(student['regno'], student['status'])
+
+        return JsonResponse({'message': "Attendance Updated"})
 
 def get_subjects(class_charge, user):
     
