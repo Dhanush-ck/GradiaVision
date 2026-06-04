@@ -14,6 +14,10 @@ class AttendanceSession(models.Model):
     hour = models.IntegerField()
     date = models.DateField()
 
+    def __str__(self):
+        return f"{self.date}, Hour - {self.hour}, {self.tutor.username}"
+    
+
 class AttendanceRecord(models.Model):
     PRESENT = 'P'
     ABSENT = 'A'
@@ -30,3 +34,6 @@ class AttendanceRecord(models.Model):
     attendance_session = models.ForeignKey(AttendanceSession, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     status = models.CharField(max_length=2, choices=ATTENDANCE_CHOICES, default=ABSENT)
+
+    def __str__(self):
+        return f"{self.attendance_session.date}, Hour - {self.attendance_session.hour}, {self.student.username}"
