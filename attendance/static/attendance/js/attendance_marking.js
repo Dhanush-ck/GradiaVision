@@ -130,7 +130,7 @@ function getStudentList() {
                 checkBox.type = "checkbox";
                 checkBox.name = "present_students";
                 checkBox.className = "present_students";
-                checkBox.value = data.email;
+                checkBox.value = data.regno;
                 
                 tr.append(rollno);
                 tr.append(name);
@@ -160,10 +160,12 @@ submitBtn.addEventListener('click', ()=> {
 
     document.querySelectorAll(".present_students").forEach(checkbox => {
         attendance.push({
-            email: checkbox.value,
+            regno: checkbox.value,
             status: checkbox.checked ? "P": "A",
         })
     })
+
+    current_class = courseDropdown.value + yearDropdown.value;
 
     // console.log(attendance);
 
@@ -176,10 +178,12 @@ submitBtn.addEventListener('click', ()=> {
             attendance: attendance,
             date: date.value,
             hour: hour.value,
+            subject: subjectDropdown.value,
+            current_class: current_class,
         }),
     })
     .then(response => response.json())
-    .then(data => {
-        console.log(data);
+    .then(data => { 
+        alert(data.message);
     })
 })
