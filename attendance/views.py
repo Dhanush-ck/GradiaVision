@@ -36,13 +36,6 @@ def attendance_marking(request):
         return redirect('/account/warning')
 
     user = request.user.userprofile.tutor
-    class_charge = user.class_charge
-
-    students = Student.objects.filter(current_class=class_charge).order_by('regno')
-    if not students:
-        return render(request, 'attendance/attendance_marking.html', {
-            'message': "No records",
-        })
 
     course = user.class_charge[:-1]
     year = user.class_charge[-1]
