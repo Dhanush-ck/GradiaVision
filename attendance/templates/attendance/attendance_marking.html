@@ -33,32 +33,32 @@
             <button name="updateFilter" id="updateFilter">Update Filter</button>
         </div>
 
-        Date:
-        <input type="date" id="date" name="date">
+        <div class="session-bar">
+            <span class="filter-label">Date</span>
+            <input type="date" id="date" name="date">
+            <span class="filter-label">Subject</span>
+            <select name="subject" id="subject"></select>
+            <span class="filter-label">Hour</span>
+            <input type="number" id="hour" name="hour" min="1" max="5" value="1">
+        </div>
 
-        Subject: 
-        <select name="subject" id="subject">
-
-        </select>
-
-        Hour:
-        <input type="number" id="hour" name="hour" min="1" max="5" value="1">
-
-        {% if message %}
-            {{message}}
-        {% else %}
-            <table>
-                <tr>
-                    <th>Roll No</th>
-                    <th>Name</th>
-                    <th>Present</th>
-                </tr>
-                
-                <tbody id="students">
+        <!-- {% if message %}
+            <div class="message">{{ message }}</div>
+        {% else %} -->
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Roll No</th>
+                            <th>Name</th>
+                            <th>Present</th>
+                        </tr>
+                    </thead>
                     
-                </tbody>
-            </table>
-        {% endif %}
+                    <tbody id="students"></tbody>
+                </table>
+            </div>
+        <!-- {% endif %} -->
 
         <button name="submitBtn" id="submitBtn" >Update Attendance</button>
 
