@@ -121,9 +121,11 @@ function getStudentList() {
                 
                 const rollno = document.createElement('td');
                 rollno.innerText = data.rollno;
+                rollno.className = "rollno";
                 
                 const name = document.createElement('td');
                 name.innerText = data.name;
+                name.className = "name";
                 
                 const checkBoxHolder = document.createElement('td');
                 const checkBox = document.createElement('input');
@@ -141,7 +143,7 @@ function getStudentList() {
             })
         }
         else {
-            students.innerHTML = " No records";
+            students.innerHTML = "";
         }
 
         const subjects = students_data.subjects;
